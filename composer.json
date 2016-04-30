@@ -1,0 +1,23 @@
+{
+    "name": "zablose/allog",
+    "description": "Allog - Log all requests",
+    "keywords": ["logging", "requests", "laravel", "lumen"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sergejs Zablockis",
+            "email": "zablose@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "illuminate/support": "5.2.*"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Zablose\\Allog": "src/"
+        }
+    }
+}
