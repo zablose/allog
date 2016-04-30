@@ -1,7 +1,7 @@
 {
     "name": "zablose/allog",
     "description": "Allog - Log all requests",
-    "keywords": ["logging", "requests", "laravel", "lumen"],
+    "keywords": ["logging", "requests"],
     "license": "MIT",
     "authors": [
         {
@@ -10,8 +10,7 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9",
-        "illuminate/support": "5.2.*"
+        "php": ">=5.5.9"
     },
     "require-dev": {
     },
