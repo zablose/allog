@@ -48,18 +48,13 @@ class Server
     public $request_time;
 
     /**
-     * Fill Server object with the values from the global $_SERVER array.
+     * Fill Server object attributes with the values from the global $_SERVER array.
      */
     public function __construct()
     {
-        foreach (array_keys(get_object_vars($this)) as $attr)
+        foreach (array_keys(get_object_vars($this)) as $attribute)
         {
-            $key = strtoupper($attr);
-
-            if (isset($_SERVER[$key]))
-            {
-                $this->$attr = $_SERVER[$key];
-            }
+            $this->$attribute = $_SERVER[strtoupper($attribute)] ?? null;
         }
     }
 
@@ -72,7 +67,7 @@ class Server
     {
         $data = (array) $this;
 
-        $data['request_time'] = date(DATE_ATOM, $data['request_time']);
+        $data['request_time'] = date(DATE_ATOM, $this->request_time);
 
         return $data;
     }

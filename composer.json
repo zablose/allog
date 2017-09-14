@@ -1,7 +1,10 @@
 {
     "name": "zablose/allog",
     "description": "Allog - Log all requests",
-    "keywords": ["logging", "requests"],
+    "keywords": [
+        "logging",
+        "requests"
+    ],
     "license": "MIT",
     "authors": [
         {
@@ -10,13 +13,13 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9"
+        "php": "~7.1"
     },
     "require-dev": {
     },
     "autoload": {
         "psr-4": {
-            "Zablose\\Allog": "src/"
+            "Zablose\\Allog\\": ""
         }
     }
 }
