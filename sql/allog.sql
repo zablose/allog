@@ -1,31 +1,39 @@
+CREATE DATABASE IF NOT EXISTS `allog`
+    DEFAULT CHARACTER SET utf8
+    COLLATE utf8_unicode_ci;
+USE `allog`;
+
 CREATE TABLE IF NOT EXISTS `clients` (
-  `name` varchar(16) NOT NULL,
-  `token` char(32) NOT NULL,
-  `remote_addr` char(15) NOT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '1',
-  `updated` datetime NOT NULL,
-  `created` datetime NOT NULL,
-  UNIQUE KEY `allog_clients_name_unique` (`name`)
-) ENGINE=InnoDB;
+    `name`        VARCHAR(32) NOT NULL,
+    `token`       CHAR(32)    NOT NULL,
+    `remote_addr` CHAR(15)    NOT NULL,
+    `active`      TINYINT(1)  NOT NULL DEFAULT '1',
+    `updated`     DATETIME    NOT NULL,
+    `created`     DATETIME    NOT NULL,
+    UNIQUE KEY `allog_clients_name_unique` (`name`)
+)
+    ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `messages` (
-  `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `type` varchar(16) NOT NULL DEFAULT 'info',
-  `message` varchar(255) NOT NULL DEFAULT '1',
-  `created` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+    `id`      TINYINT(3) UNSIGNED             NOT NULL AUTO_INCREMENT,
+    `type`    VARCHAR(16)                     NOT NULL DEFAULT 'info',
+    `message` TEXT COLLATE utf8mb4_unicode_ci NOT NULL,
+    `created` DATETIME                        NOT NULL,
+    PRIMARY KEY (`id`)
+)
+    ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `requests_allog_server` (
-  `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `http_user_agent` varchar(255) DEFAULT NULL,
-  `http_referer` varchar(255) DEFAULT NULL,
-  `remote_addr` char(15) NOT NULL,
-  `request_method` char(16) NOT NULL,
-  `request_uri` varchar(255) NOT NULL,
-  `request_time` datetime DEFAULT NULL,
-  `get` text,
-  `post` longtext,
-  `created` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+    `id`              SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `http_user_agent` VARCHAR(255)                  DEFAULT NULL,
+    `http_referer`    VARCHAR(2000)                 DEFAULT NULL,
+    `remote_addr`     CHAR(15)             NOT NULL,
+    `request_method`  CHAR(16)             NOT NULL,
+    `request_uri`     VARCHAR(2000)        NOT NULL,
+    `request_time`    DATETIME                      DEFAULT NULL,
+    `get`             TEXT COLLATE utf8mb4_unicode_ci,
+    `post`            LONGTEXT COLLATE utf8mb4_unicode_ci,
+    `created`         DATETIME             NOT NULL,
+    PRIMARY KEY (`id`)
+)
+    ENGINE = InnoDB;
