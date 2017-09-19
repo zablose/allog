@@ -70,19 +70,11 @@ class Client
         self::STATE_PRODUCTION  => self::STATE_PRODUCTION,
     ];
 
-    public function __construct()
+    public function __construct(array $config = [])
     {
-        $this->data = new Container();
-    }
+        $this->data = new Container($config);
 
-    /**
-     * @param array $config
-     *
-     * @return $this
-     */
-    public function configure(array $config)
-    {
-        return $this
+        $this
             ->state($config['client']['state'] ?? null)
             ->name($config['client']['name'] ?? null)
             ->token($config['client']['token'] ?? null)

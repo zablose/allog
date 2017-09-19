@@ -29,10 +29,10 @@ class Container
      */
     public $get;
 
-    public function __construct()
+    public function __construct(array $config)
     {
         $this->server = new Server();
-        $this->post   = new Post();
+        $this->post   = new Post($config['protected'] ?? []);
         $this->get    = new Get();
     }
 
@@ -46,19 +46,7 @@ class Container
      */
     public function toArrayWith($name, $token)
     {
-        return array_merge($this->_toArray(), compact('name', 'token'));
-    }
-
-    /**
-     * Get Container object as array from the object itself or given array.
-     *
-     * @param array $data
-     *
-     * @return array
-     */
-    public function toArray($data = null)
-    {
-        return is_null($data) ? $this->_toArray() : $this->_toValidArray($data);
+        return array_merge($this->toArray(), compact('name', 'token'));
     }
 
     /**
@@ -66,35 +54,12 @@ class Container
      *
      * @return array
      */
-    protected function _toArray()
+    public function toArray()
     {
         return array_merge($this->server->toArray(), [
             'get'  => $this->get->json(),
             'post' => $this->post->json(),
         ]);
-    }
-
-    /**
-     * Get Container object as array from the given array, by validating keys.
-     *
-     * @param array $data
-     *
-     * @return array
-     */
-    protected function _toValidArray($data)
-    {
-        $base = [
-            'http_user_agent' => null,
-            'http_referer'    => null,
-            'remote_addr'     => null,
-            'request_method'  => null,
-            'request_uri'     => null,
-            'request_time'    => null,
-            'get'             => null,
-            'post'            => null,
-        ];
-
-        return array_intersect_key($data, $base);
     }
 
 }

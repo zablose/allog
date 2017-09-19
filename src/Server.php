@@ -29,7 +29,7 @@ class Server
      */
     public function __construct(array $config)
     {
-        $this->data   = new Container();
+        $this->data   = new Container($config);
         $this->db     = new Db($config);
         $this->config = $config;
     }
@@ -48,7 +48,7 @@ class Server
         {
             $this->db->addRequest(
                 $this->data->post->name(),
-                $this->data->toArray($this->data->post->post)
+                $this->data->post->toArray()
             );
         }
         else

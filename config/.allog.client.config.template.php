@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     'client' => [
         /**
          * Values:
@@ -12,10 +13,17 @@ return [
         'name'  => '',
         'token' => '',
     ],
+
     'server' => [
         /**
          * HTTPS only.
          */
         'url' => 'https://allog.server.dev/',
     ],
+
+    'protected' => [
+        'password',
+        'password_confirmation',
+    ],
+
 ];
