@@ -41,10 +41,12 @@ class Db
         $this->pdo = new PDO(
             $this->dsn(),
             $config['db']['username'] ?? '',
-            $config['db']['password'] ?? ''
+            $config['db']['password'] ?? '',
+            [
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
+                PDO::ATTR_PERSISTENT         => true,
+            ]
         );
-
-        $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 
         $this->throwExceptions($this->config['db']['debug'] ?? false);
     }

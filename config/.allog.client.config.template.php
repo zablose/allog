@@ -14,14 +14,19 @@ return [
         'token' => '',
     ],
 
-    'server' => [
+    'server'    => [
         /**
          * HTTPS only.
          */
         'url' => 'https://allog.server.dev/',
     ],
 
+    /**
+     * Keys in data array, which values to be replaced with '*'.
+     * Applies for POST only.
+     */
     'protected' => [
+        '_token',
         'password',
         'password_confirmation',
     ],

@@ -10,7 +10,7 @@ class Get
      *
      * @var string
      */
-    public $data;
+    private $data;
 
     public function __construct()
     {

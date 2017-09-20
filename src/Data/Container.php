@@ -13,26 +13,26 @@ class Container
      *
      * @var Server
      */
-    public $server;
+    private $server;
 
     /**
      * An instance of the Post class that represents $_POST array.
      *
      * @var Post
      */
-    public $post;
+    private $post;
 
     /**
      * An instance of the Get class that represents $_GET array.
      *
      * @var Get
      */
-    public $get;
+    private $get;
 
     public function __construct(array $config)
     {
         $this->server = new Server();
-        $this->post   = new Post($config['protected'] ?? []);
+        $this->post   = new Post($config);
         $this->get    = new Get();
     }
 
@@ -60,6 +60,30 @@ class Container
             'get'  => $this->get->json(),
             'post' => $this->post->json(),
         ]);
+    }
+
+    /**
+     * @return Server
+     */
+    public function server()
+    {
+        return $this->server;
+    }
+
+    /**
+     * @return Post
+     */
+    public function post()
+    {
+        return $this->post;
+    }
+
+    /**
+     * @return Get
+     */
+    public function get()
+    {
+        return $this->get;
     }
 
 }

@@ -10,17 +10,19 @@ class Post
      *
      * @var array
      */
-    public $post;
+    private $data;
 
     /**
+     * Data array keys to be protected by replacing values with '*'.
+     *
      * @var array
      */
-    private $protected;
+    private $keys;
 
-    public function __construct(array $protected)
+    public function __construct(array $config)
     {
-        $this->post      = $_POST;
-        $this->protected = $protected;
+        $this->data = $_POST;
+        $this->keys = $config['protected'] ?? [];
     }
 
     /**
@@ -30,7 +32,7 @@ class Post
      */
     public function name()
     {
-        return $this->post['name'] ?? null;
+        return $this->data['name'] ?? null;
     }
 
     /**
@@ -40,7 +42,7 @@ class Post
      */
     public function token()
     {
-        return $this->post['token'] ?? null;
+        return $this->data['token'] ?? null;
     }
 
     /**
@@ -50,11 +52,11 @@ class Post
      */
     public function json()
     {
-        return json_encode($this->protect($this->protected)->post);
+        return json_encode($this->protect($this->keys)->data);
     }
 
     /**
-     * Get $_POST data as array with keys validation.
+     * Get $_POST data, but filter invalid keys first.
      *
      * @return array
      */
@@ -71,23 +73,23 @@ class Post
             'post'            => null,
         ];
 
-        return array_intersect_key($this->post, $base);
+        return array_intersect_key($this->data, $base);
     }
 
     /**
-     * Protect keys in post array by replacing values with '*'.
+     * Protect data in array by replacing values with '*' for selected keys.
      *
-     * @param array $protected
+     * @param array $keys
      *
      * @return $this
      */
-    private function protect($protected)
+    private function protect($keys)
     {
-        if (count($protected))
+        if (count($keys))
         {
-            array_walk_recursive($this->post, function (&$value, $key) use ($protected)
+            array_walk_recursive($this->data, function (&$value, $key) use ($keys)
             {
-                if (array_search($key, $protected) !== false)
+                if (array_search($key, $keys) !== false)
                 {
                     $value = '*';
                 }

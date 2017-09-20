@@ -47,8 +47,8 @@ class Server
         if ($this->auth())
         {
             $this->db->addRequest(
-                $this->data->post->name(),
-                $this->data->post->toArray()
+                $this->data->post()->name(),
+                $this->data->post()->toArray()
             );
         }
         else
@@ -67,15 +67,20 @@ class Server
      */
     private function auth()
     {
-        if (! $this->data->post->name() || ! $this->data->post->token())
+        if ($this->data->server()->remote_addr === '127.0.0.1')
+        {
+            return (bool) $this->data->post()->name();
+        }
+
+        if (! $this->data->post()->name() || ! $this->data->post()->token())
         {
             return false;
         }
 
         return $this->db->auth(
-            $this->data->post->name(),
-            $this->data->post->token(),
-            $this->data->server->remote_addr
+            $this->data->post()->name(),
+            $this->data->post()->token(),
+            $this->data->server()->remote_addr
         );
     }
 
