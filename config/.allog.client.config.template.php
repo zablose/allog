@@ -1,8 +1,7 @@
 <?php
 
 return [
-
-    'client' => [
+    'client'    => [
         /**
          * Values:
          *      'disabled' - Client will not send anything;
@@ -13,14 +12,12 @@ return [
         'name'  => '',
         'token' => '',
     ],
-
     'server'    => [
         /**
          * HTTPS only.
          */
         'url' => 'https://allog.server.dev/',
     ],
-
     /**
      * Keys in data array, which values to be replaced with '*'.
      * Applies for POST only.
@@ -30,5 +27,4 @@ return [
         'password',
         'password_confirmation',
     ],
-
 ];

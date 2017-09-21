@@ -1,6 +1,6 @@
 {
     "name": "zablose/allog",
-    "description": "Allog - Log all requests",
+    "description": "Log all requests to the database.",
     "keywords": [
         "logging",
         "requests"
