@@ -57,48 +57,44 @@ require __DIR__ . '/../vendor/autoload.php';
 
 Copy '.allog.client.config.template.php' to your project's root as '.allog.client.config.php'.
 
-### Apache2 config example for Allog server
+### Certs hints
 
-```apacheconfig
-<IfModule mod_ssl.c>
-    <VirtualHost *:443>
-        ServerName allog.domain.dev
-        ServerAdmin admin@domain.com
-        DocumentRoot /var/www/allog/public
+File 'certs.conf':
 
-        <Directory "/var/www/allog/public">
-            RewriteEngine on
-            RewriteBase /
-            RewriteCond %{REQUEST_FILENAME} !-f
-            RewriteCond %{REQUEST_FILENAME} !-d
-            RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
-        </Directory>
+```
+[ req ]
+req_extensions     = req_ext
+distinguished_name = req_distinguished_name
+prompt             = no
 
-        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
-        # error, crit, alert, emerg.
-        # It is also possible to configure the loglevel for particular
-        # modules, e.g.
-        LogLevel info ssl:warn
+[req_distinguished_name]
+commonName=server.dev
 
-        ErrorLog ${APACHE_LOG_DIR}/error.log
-        CustomLog ${APACHE_LOG_DIR}/access.log combined
-        
-        SSLEngine on
-        SSLCertificateFile  /etc/ssl/certs/ssl-cert-snakeoil.pem
-        SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
-        
-        <FilesMatch "\.(cgi|shtml|phtml|php)$">
-            SSLOptions +StdEnvVars
-        </FilesMatch>
-        <Directory /usr/lib/cgi-bin>
-            SSLOptions +StdEnvVars
-        </Directory>
-        
-    </VirtualHost>
-</IfModule>
+[req_ext]
+subjectAltName   = @alt_names
 
-# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+[alt_names]
+DNS.1  = server.dev
+DNS.2  = *.server.dev
+```
 
+Command to generate self-signed certificates:
+
+```
+openssl req -x509 -config ./certs.conf -extensions req_ext -nodes -days 730 -newkey rsa:2048 -sha256 \
+    -keyout server.key -out server.crt
+```
+
+Symlink key for system (Debian) to use:
+
+```
+ln -sr server.crt /usr/local/share/ca-certificates/server.crt
+```
+
+Update system certs:
+
+```
+update-ca-certificates
 ```
 
 ## License
