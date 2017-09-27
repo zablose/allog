@@ -4,19 +4,17 @@ return [
     'client'    => [
         /**
          * Values:
-         *      'disabled' - Client will not send anything;
-         *      'development' - Will send data without proper SSL verification, useful with self-signed certificates;
-         *      'production' - Must be used in production.
+         *      'disabled' - Do not send anything;
+         *      'development' - Send data without proper SSL verification, useful with self-signed certificates;
+         *      'production' - Send data with proper SSL verification;
+         *      'local' - Send data using HTTP, may be used when client and server is the same thing.
          */
         'state' => 'disabled',
         'name'  => '',
         'token' => '',
     ],
     'server'    => [
-        /**
-         * HTTPS only.
-         */
-        'url' => 'https://allog.server.dev/',
+        'url' => 'http://allog.server.dev/',
     ],
     /**
      * Keys in data array, which values to be replaced with '*'.

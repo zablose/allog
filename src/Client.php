@@ -10,6 +10,12 @@ class Client
     const STATE_DISABLED    = 'disabled';
     const STATE_DEVELOPMENT = 'development';
     const STATE_PRODUCTION  = 'production';
+    const STATE_LOCAL       = 'local';
+
+    /**
+     * @var resource
+     */
+    private $ch;
 
     /**
      * URL to send data to.
@@ -46,13 +52,6 @@ class Client
     private $response;
 
     /**
-     * HTTP response code.
-     *
-     * @var bool
-     */
-    private $code;
-
-    /**
      * Client state.
      *
      * @var string
@@ -68,6 +67,7 @@ class Client
         self::STATE_DISABLED    => self::STATE_DISABLED,
         self::STATE_DEVELOPMENT => self::STATE_DEVELOPMENT,
         self::STATE_PRODUCTION  => self::STATE_PRODUCTION,
+        self::STATE_LOCAL       => self::STATE_LOCAL,
     ];
 
     public function __construct(array $config = [])
@@ -143,14 +143,14 @@ class Client
             return $this;
         }
 
-        $curl = curl_init();
+        $this->ch = curl_init();
 
         $options = [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FAILONERROR    => false,
             CURLOPT_URL            => $this->url,
             CURLOPT_USERAGENT      => 'Allog Client',
-            CURLOPT_PROTOCOLS      => CURLPROTO_HTTPS,
+            CURLOPT_PROTOCOLS      => $this->state === self::STATE_LOCAL ? CURLPROTO_HTTP : CURLPROTO_HTTPS,
             CURLOPT_POST           => true,
             CURLOPT_POSTFIELDS     => $this->data->toArrayWith($this->name, $this->token),
         ];
@@ -161,13 +161,9 @@ class Client
             $options[CURLOPT_SSL_VERIFYHOST] = 0;
         }
 
-        curl_setopt_array($curl, $options);
+        curl_setopt_array($this->ch, $options);
 
-        $this->response = curl_exec($curl);
-
-        $this->code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
-        curl_close($curl);
+        $this->response = curl_exec($this->ch);
 
         return $this;
     }
@@ -201,7 +197,25 @@ class Client
      */
     public function code()
     {
-        return $this->code;
+        return curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
+    }
+
+    public function __destruct()
+    {
+        curl_close($this->ch);
+    }
+
+    /**
+     * Get last error's number and message.
+     *
+     * @return object
+     */
+    public function error()
+    {
+        return (object) [
+            'number'  => curl_errno($this->ch),
+            'message' => curl_error($this->ch),
+        ];
     }
 
 }
