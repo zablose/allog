@@ -150,13 +150,18 @@ class Client
             CURLOPT_FAILONERROR    => false,
             CURLOPT_URL            => $this->url,
             CURLOPT_USERAGENT      => 'Allog Client',
-            CURLOPT_PROTOCOLS      => $this->state === self::STATE_LOCAL ? CURLPROTO_HTTP : CURLPROTO_HTTPS,
+            CURLOPT_PROTOCOLS      => CURLPROTO_HTTPS,
             CURLOPT_POST           => true,
             CURLOPT_POSTFIELDS     => $this->data->toArrayWith($this->name, $this->token),
         ];
 
+        if ($this->state === self::STATE_LOCAL)
+        {
+            $options[CURLOPT_PROTOCOLS] = CURLPROTO_HTTP | CURLPROTO_HTTPS;
+        }
+
         // Allow self-signed certificates.
-        if ($this->state === self::STATE_DEVELOPMENT)
+        if (in_array($this->state, [self::STATE_DEVELOPMENT, self::STATE_LOCAL]))
         {
             $options[CURLOPT_SSL_VERIFYHOST] = 0;
         }
@@ -202,7 +207,10 @@ class Client
 
     public function __destruct()
     {
-        curl_close($this->ch);
+        if ($this->ch)
+        {
+            curl_close($this->ch);
+        }
     }
 
     /**
@@ -212,9 +220,12 @@ class Client
      */
     public function error()
     {
-        return (object) [
+        return $this->ch ? (object) [
             'number'  => curl_errno($this->ch),
             'message' => curl_error($this->ch),
+        ] : (object) [
+            'number'  => 'n/a',
+            'message' => 'Allog client is not configured or disabled.',
         ];
     }
 
