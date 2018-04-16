@@ -62,7 +62,7 @@ Copy '.allog.client.config.template.php' to your project's root as '.allog.clien
 File 'certs.conf':
 
 ```
-[ req ]
+[req]
 req_extensions     = req_ext
 distinguished_name = req_distinguished_name
 prompt             = no
@@ -71,18 +71,17 @@ prompt             = no
 commonName=server.dev
 
 [req_ext]
-subjectAltName   = @alt_names
+subjectAltName = @alt_names
 
 [alt_names]
-DNS.1  = server.dev
-DNS.2  = *.server.dev
+DNS.1 = server.dev
+DNS.2 = *.server.dev
 ```
 
 Command to generate self-signed certificates:
 
-```
-openssl req -x509 -config ./certs.conf -extensions req_ext -nodes -days 730 -newkey rsa:2048 -sha256 \
-    -keyout server.key -out server.crt
+``` 
+openssl req -x509 -config ./certs.conf -nodes -days 730 -newkey rsa:2048 -sha256 -keyout server.key -out server.crt
 ```
 
 Symlink key for system (Debian) to use:
