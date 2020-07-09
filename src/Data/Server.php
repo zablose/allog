@@ -67,7 +67,7 @@ class Server
     {
         $data = (array) $this;
 
-        $data['request_time'] = date(DATE_ATOM, $this->request_time);
+        $data['request_time'] = date('Y-m-d H:i:s', $this->request_time);
 
         return $data;
     }

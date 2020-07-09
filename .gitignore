@@ -1,3 +1,5 @@
-/vendor/
 /.idea/
+/vendor/
+/.allog.server.config.php
+/.env
 /composer.lock

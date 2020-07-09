@@ -138,7 +138,7 @@ class Db
      */
     protected function insert($table, $fields)
     {
-        $now = date(DATE_ATOM);
+        $now = date('Y-m-d H:i:s');
 
         $fields['created'] = $now;
 

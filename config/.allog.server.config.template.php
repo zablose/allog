@@ -2,7 +2,8 @@
 
 return [
     'server' => [
-        'name' => 'allog_server',
+        'name'     => 'allog',
+        'timezone' => 'Europe/London',
     ],
     'db'     => [
         'debug'      => false,

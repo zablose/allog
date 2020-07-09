@@ -13,13 +13,15 @@
         }
     ],
     "require": {
-        "php": "~7.1"
+        "php": "~7.1",
+        "ext-curl": "*",
+        "ext-pdo": "*"
     },
     "require-dev": {
     },
     "autoload": {
         "psr-4": {
-            "Zablose\\Allog\\": ""
+            "Zablose\\Allog\\": "src/"
         }
     }
 }

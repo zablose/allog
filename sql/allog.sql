@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
 )
     ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `requests_allog_server` (
+CREATE TABLE IF NOT EXISTS `requests_allog` (
     `id`              SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
     `http_user_agent` VARCHAR(255)                  DEFAULT NULL,
     `http_referer`    VARCHAR(2000)                 DEFAULT NULL,

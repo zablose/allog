@@ -146,13 +146,14 @@ class Client
         $this->ch = curl_init();
 
         $options = [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_FAILONERROR    => false,
-            CURLOPT_URL            => $this->url,
-            CURLOPT_USERAGENT      => 'Allog Client',
-            CURLOPT_PROTOCOLS      => CURLPROTO_HTTPS,
-            CURLOPT_POST           => true,
-            CURLOPT_POSTFIELDS     => $this->data->toArrayWith($this->name, $this->token),
+            CURLOPT_RETURNTRANSFER      => true,
+            CURLOPT_FAILONERROR         => false,
+            CURLOPT_URL                 => $this->url,
+            CURLOPT_USERAGENT           => 'Allog Client',
+            CURLOPT_PROTOCOLS           => CURLPROTO_HTTPS,
+            CURLOPT_POST                => true,
+            CURLOPT_POSTFIELDS          => $this->data->toArrayWith($this->name, $this->token),
+            CURLOPT_CONNECTTIMEOUT_MS   => 200,
         ];
 
         if ($this->state === self::STATE_LOCAL)
@@ -163,12 +164,17 @@ class Client
         // Allow self-signed certificates.
         if (in_array($this->state, [self::STATE_DEVELOPMENT, self::STATE_LOCAL]))
         {
-            $options[CURLOPT_SSL_VERIFYHOST] = 0;
+            $options[CURLOPT_SSL_VERIFYPEER] = false;
         }
 
         curl_setopt_array($this->ch, $options);
 
         $this->response = curl_exec($this->ch);
+
+        if (curl_errno($this->ch))
+        {
+            trigger_error(print_r($this->error(), true), E_USER_WARNING);
+        }
 
         return $this;
     }
