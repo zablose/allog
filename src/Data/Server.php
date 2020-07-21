@@ -1,69 +1,67 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Zablose\Allog\Data;
 
 class Server
 {
-
     /**
      * $_SERVER['HTTP_USER_AGENT']
      *
      * @var string
      */
-    public $http_user_agent;
+    public string $http_user_agent = '';
 
     /**
      * $_SERVER['HTTP_REFERER']
      *
      * @var string
      */
-    public $http_referer;
+    public string $http_referer = '';
 
     /**
      * $_SERVER['REMOTE_ADDR']
      *
      * @var string
      */
-    public $remote_addr;
+    public string $remote_addr = '';
 
     /**
      * $_SERVER['REQUEST_METHOD']
      *
      * @var string
      */
-    public $request_method;
+    public string $request_method = '';
 
     /**
      * $_SERVER['REQUEST_URI']
      *
      * @var string
      */
-    public $request_uri;
+    public string $request_uri = '';
 
     /**
      * $_SERVER['REQUEST_TIME']
      *
      * @var integer
      */
-    public $request_time;
+    public int $request_time = 0;
 
-    /**
-     * Fill Server object attributes with the values from the global $_SERVER array.
-     */
     public function __construct()
     {
-        foreach (array_keys(get_object_vars($this)) as $attribute)
-        {
-            $this->$attribute = $_SERVER[strtoupper($attribute)] ?? null;
-        }
+        $this->load();
     }
 
     /**
-     * Get Server object as array.
-     *
-     * @return array
+     * Load values from the global $_SERVER array.
      */
-    public function toArray()
+    private function load(): void
+    {
+        foreach (array_keys(get_object_vars($this)) as $attribute) {
+            $this->$attribute = $_SERVER[strtoupper($attribute)] ?? '';
+        }
+    }
+
+    public function toArray(): array
     {
         $data = (array) $this;
 
@@ -71,5 +69,4 @@ class Server
 
         return $data;
     }
-
 }

@@ -1,5 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
-require __DIR__ . '/../vendor/autoload.php';
+use Zablose\Allog\Server;
 
-(new \Zablose\Allog\Server(require_once __DIR__ . '/../.allog.server.config.php'))->run();
+require __DIR__.'/../vendor/autoload.php';
+
+(new Server(require_once __DIR__.'/../.allog.server.config.php'))->run();

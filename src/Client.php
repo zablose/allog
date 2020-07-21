@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Zablose\Allog;
 
@@ -6,15 +6,12 @@ use Zablose\Allog\Data\Container;
 
 class Client
 {
-
     const STATE_DISABLED    = 'disabled';
     const STATE_DEVELOPMENT = 'development';
     const STATE_PRODUCTION  = 'production';
     const STATE_LOCAL       = 'local';
 
-    /**
-     * @var resource
-     */
+    /** @var resource */
     private $ch;
 
     /**
@@ -22,21 +19,21 @@ class Client
      *
      * @var string
      */
-    private $url;
+    private string $url;
 
     /**
      * Client name the data from.
      *
      * @var string
      */
-    private $name;
+    private string $name;
 
     /**
      * Unique token for the app to access logging server.
      *
      * @var string
      */
-    private $token;
+    private string $token;
 
     /**
      * A container class for storing Server, Post and Get data in one place,
@@ -44,30 +41,15 @@ class Client
      *
      * @var Container
      */
-    private $data;
+    private Container $data;
 
-    /**
-     * @var string
-     */
-    private $response;
-
-    /**
-     * Client state.
-     *
-     * @var string
-     */
-    private $state;
-
-    /**
-     * Valid states.
-     *
-     * @var array
-     */
-    private $states = [
-        self::STATE_DISABLED    => self::STATE_DISABLED,
+    private string $response;
+    private string $state;
+    private array $states = [
+        self::STATE_DISABLED => self::STATE_DISABLED,
         self::STATE_DEVELOPMENT => self::STATE_DEVELOPMENT,
-        self::STATE_PRODUCTION  => self::STATE_PRODUCTION,
-        self::STATE_LOCAL       => self::STATE_LOCAL,
+        self::STATE_PRODUCTION => self::STATE_PRODUCTION,
+        self::STATE_LOCAL => self::STATE_LOCAL,
     ];
 
     public function __construct(array $config = [])
@@ -75,58 +57,41 @@ class Client
         $this->data = new Container($config);
 
         $this
-            ->state($config['client']['state'] ?? null)
-            ->name($config['client']['name'] ?? null)
-            ->token($config['client']['token'] ?? null)
-            ->url($config['server']['url'] ?? null);
+            ->setState($config['client']['state'] ?? null)
+            ->setName($config['client']['name'] ?? null)
+            ->setToken($config['client']['token'] ?? null)
+            ->setUrl($config['server']['url'] ?? null);
     }
 
     /**
      * Set Allog server URL to send the data to.
      *
-     * @param string $value
+     * @param  string  $value
      *
-     * @return Client
+     * @return self
      */
-    public function url($value)
+    public function setUrl(string $value): self
     {
         $this->url = $value;
 
         return $this;
     }
 
-    /**
-     * Set client name.
-     *
-     * @param string $name
-     *
-     * @return Client
-     */
-    public function name($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Set client token.
-     *
-     * @param string $value
-     *
-     * @return Client
-     */
-    public function token($value)
+    public function setToken(string $value): self
     {
         $this->token = $value;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    private function notConfiguredOrDisabled()
+    private function notConfiguredOrDisabled(): bool
     {
         return $this->state === self::STATE_DISABLED || empty($this->name) || empty($this->token) || empty($this->url);
     }
@@ -134,36 +99,33 @@ class Client
     /**
      * Send data to the URL by using POST method.
      *
-     * @return Client
+     * @return self
      */
-    public function send()
+    public function send(): self
     {
-        if ($this->notConfiguredOrDisabled())
-        {
+        if ($this->notConfiguredOrDisabled()) {
             return $this;
         }
 
         $this->ch = curl_init();
 
         $options = [
-            CURLOPT_RETURNTRANSFER      => true,
-            CURLOPT_FAILONERROR         => false,
-            CURLOPT_URL                 => $this->url,
-            CURLOPT_USERAGENT           => 'Allog Client',
-            CURLOPT_PROTOCOLS           => CURLPROTO_HTTPS,
-            CURLOPT_POST                => true,
-            CURLOPT_POSTFIELDS          => $this->data->toArrayWith($this->name, $this->token),
-            CURLOPT_CONNECTTIMEOUT_MS   => 200,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FAILONERROR => false,
+            CURLOPT_URL => $this->url,
+            CURLOPT_USERAGENT => 'Allog Client',
+            CURLOPT_PROTOCOLS => CURLPROTO_HTTPS,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $this->data->toArrayWith($this->name, $this->token),
+            CURLOPT_CONNECTTIMEOUT_MS => 200,
         ];
 
-        if ($this->state === self::STATE_LOCAL)
-        {
+        if ($this->state === self::STATE_LOCAL) {
             $options[CURLOPT_PROTOCOLS] = CURLPROTO_HTTP | CURLPROTO_HTTPS;
         }
 
         // Allow self-signed certificates.
-        if (in_array($this->state, [self::STATE_DEVELOPMENT, self::STATE_LOCAL]))
-        {
+        if (in_array($this->state, [self::STATE_DEVELOPMENT, self::STATE_LOCAL])) {
             $options[CURLOPT_SSL_VERIFYPEER] = false;
         }
 
@@ -171,50 +133,33 @@ class Client
 
         $this->response = curl_exec($this->ch);
 
-        if (curl_errno($this->ch))
-        {
-            trigger_error(print_r($this->error(), true), E_USER_WARNING);
+        if (curl_errno($this->ch)) {
+            trigger_error(print_r($this->getError(), true), E_USER_WARNING);
         }
 
         return $this;
     }
 
-    /**
-     * Set client state.
-     *
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function state($value)
+    public function setState(string $value): self
     {
         $this->state = $this->states[$value] ?? self::STATE_DISABLED;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function response()
+    public function getResponse(): string
     {
         return $this->response;
     }
 
-    /**
-     * Get HTTP response code.
-     *
-     * @return bool
-     */
-    public function code()
+    public function getHttpCode(): string
     {
         return curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
     }
 
     public function __destruct()
     {
-        if ($this->ch)
-        {
+        if ($this->ch) {
             curl_close($this->ch);
         }
     }
@@ -224,15 +169,14 @@ class Client
      *
      * @return object
      */
-    public function error()
+    public function getError(): object
     {
         return $this->ch ? (object) [
-            'number'  => curl_errno($this->ch),
+            'number' => curl_errno($this->ch),
             'message' => curl_error($this->ch),
         ] : (object) [
-            'number'  => 'n/a',
+            'number' => 'n/a',
             'message' => 'Allog client is not configured or disabled.',
         ];
     }
-
 }

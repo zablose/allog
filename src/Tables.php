@@ -1,82 +1,38 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Zablose\Allog;
 
 class Tables
 {
-
-    /**
-     * Table name for Allog clients.
-     */
-    const TABLE_CLIENTS = 'clients';
-
-    /**
-     * Table name for Allog messages.
-     */
+    const TABLE_CLIENTS  = 'clients';
     const TABLE_MESSAGES = 'messages';
 
-    /**
-     * Base table name for Allog requests tables.
-     */
+    /** Base table name for Allog requests tables. */
     const TABLE_REQUESTS = 'requests_';
 
-    /**
-     * Full table name for Allog clients.
-     *
-     * @var string
-     */
-    private $clients;
+    private string $clients;
+    private string $messages;
+    private string $requests;
 
-    /**
-     * Full table name for Allog messages.
-     *
-     * @var string
-     */
-    private $messages;
-
-    /**
-     * Full table name for Allog requests, based on current client name to log for.
-     *
-     * @var string
-     */
-    private $requests;
-
-    /**
-     * @param string $prefix Table prefix.
-     */
     public function __construct(string $prefix)
     {
-        $this->clients  = $prefix . static::TABLE_CLIENTS;
-        $this->messages = $prefix . static::TABLE_MESSAGES;
-        $this->requests = $prefix . static::TABLE_REQUESTS;
+        $this->clients  = $prefix.static::TABLE_CLIENTS;
+        $this->messages = $prefix.static::TABLE_MESSAGES;
+        $this->requests = $prefix.static::TABLE_REQUESTS;
     }
 
-    /**
-     * @return string
-     */
-    public function clients()
+    public function clients(): string
     {
         return $this->clients;
     }
 
-    /**
-     * @return string
-     */
-    public function messages()
+    public function messages(): string
     {
         return $this->messages;
     }
 
-    /**
-     * Get requests table name.
-     *
-     * @param string $client_name Current client name to log for.
-     *
-     * @return string
-     */
-    public function requests($client_name)
+    public function requests(string $client_name): string
     {
-        return $this->requests . $client_name;
+        return $this->requests.$client_name;
     }
-
 }

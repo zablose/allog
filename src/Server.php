@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Zablose\Allog;
 
@@ -6,27 +6,10 @@ use Zablose\Allog\Data\Container;
 
 class Server
 {
+    private Db $db;
+    private Container $data;
+    private array $config;
 
-    /**
-     * Allog DB model instance.
-     *
-     * @var Db
-     */
-    private $db;
-
-    /**
-     * @var Container
-     */
-    private $data;
-
-    /**
-     * @var array
-     */
-    private $config;
-
-    /**
-     * @param array $config
-     */
     public function __construct(array $config)
     {
         $this->data   = new Container($config);
@@ -34,27 +17,16 @@ class Server
         $this->config = $config;
     }
 
-    /**
-     * Save data to the database from the given array or a new data.
-     *
-     * Truncate table, if ID reached the out of range.
-     * Add warning message to the messages table.
-     *
-     * @return Server
-     */
-    public function run()
+    public function run(): self
     {
-        if ($this->auth())
-        {
+        if ($this->auth()) {
             $this->db->addRequest(
                 $this->data->post()->name(),
                 $this->data->post()->toArray()
             );
-        }
-        else
-        {
+        } else {
             $this->db->addRequest(
-                $this->config['server']['name'] ?? 'allog_server',
+                $this->config['server']['name'] ?? 'allog',
                 $this->data->toArray()
             );
         }
@@ -62,18 +34,13 @@ class Server
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    private function auth()
+    private function auth(): bool
     {
-        if ($this->data->server()->remote_addr === '127.0.0.1')
-        {
+        if ($this->data->server()->remote_addr === '127.0.0.1') {
             return (bool) $this->data->post()->name();
         }
 
-        if (! $this->data->post()->name() || ! $this->data->post()->token())
-        {
+        if (! $this->data->post()->name() || ! $this->data->post()->token()) {
             return false;
         }
 
@@ -83,5 +50,4 @@ class Server
             $this->data->server()->remote_addr
         );
     }
-
 }

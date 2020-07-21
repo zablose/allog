@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Zablose\Allog\Data;
 
@@ -7,27 +7,26 @@ namespace Zablose\Allog\Data;
  */
 class Container
 {
-
     /**
      * An instance of the Server class with some data from the $_SERVER array as attributes.
      *
      * @var Server
      */
-    private $server;
+    private Server $server;
 
     /**
      * An instance of the Post class that represents $_POST array.
      *
      * @var Post
      */
-    private $post;
+    private Post $post;
 
     /**
      * An instance of the Get class that represents $_GET array.
      *
      * @var Get
      */
-    private $get;
+    private Get $get;
 
     public function __construct(array $config)
     {
@@ -39,51 +38,36 @@ class Container
     /**
      * Get Container object as array with added client 'name' and 'token' elements.
      *
-     * @param string $name Client name.
-     * @param string $token
+     * @param  string  $name  Client name.
+     * @param  string  $token
      *
      * @return array
      */
-    public function toArrayWith($name, $token)
+    public function toArrayWith(string $name, string $token): array
     {
         return array_merge($this->toArray(), compact('name', 'token'));
     }
 
-    /**
-     * Get Container object as array.
-     *
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return array_merge($this->server->toArray(), [
-            'get'  => $this->get->json(),
-            'post' => $this->post->json(),
+            'get' => $this->get->toJson(),
+            'post' => $this->post->toJson(),
         ]);
     }
 
-    /**
-     * @return Server
-     */
-    public function server()
+    public function server(): Server
     {
         return $this->server;
     }
 
-    /**
-     * @return Post
-     */
-    public function post()
+    public function post(): Post
     {
         return $this->post;
     }
 
-    /**
-     * @return Get
-     */
-    public function get()
+    public function get(): Get
     {
         return $this->get;
     }
-
 }

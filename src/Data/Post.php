@@ -1,23 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Zablose\Allog\Data;
 
 class Post
 {
-
-    /**
-     * $_POST array as is.
-     *
-     * @var array
-     */
-    private $data;
+    private array $data;
 
     /**
      * Data array keys to be protected by replacing values with '*'.
      *
      * @var array
      */
-    private $keys;
+    private array $keys;
 
     public function __construct(array $config)
     {
@@ -28,21 +22,21 @@ class Post
     /**
      * Get client name from $_POST['name'] array.
      *
-     * @return string|null
+     * @return string
      */
-    public function name()
+    public function name(): string
     {
-        return $this->data['name'] ?? null;
+        return $this->data['name'] ?? '';
     }
 
     /**
      * Get client token from $_POST['token'] array.
      *
-     * @return string|null
+     * @return string
      */
-    public function token()
+    public function token(): string
     {
-        return $this->data['token'] ?? null;
+        return $this->data['token'] ?? '';
     }
 
     /**
@@ -50,7 +44,7 @@ class Post
      *
      * @return string
      */
-    public function json()
+    public function toJson(): string
     {
         return json_encode($this->protect($this->keys)->data);
     }
@@ -60,17 +54,17 @@ class Post
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         $base = [
             'http_user_agent' => null,
-            'http_referer'    => null,
-            'remote_addr'     => null,
-            'request_method'  => null,
-            'request_uri'     => null,
-            'request_time'    => null,
-            'get'             => null,
-            'post'            => null,
+            'http_referer' => null,
+            'remote_addr' => null,
+            'request_method' => null,
+            'request_uri' => null,
+            'request_time' => null,
+            'get' => null,
+            'post' => null,
         ];
 
         return array_intersect_key($this->data, $base);
@@ -79,18 +73,16 @@ class Post
     /**
      * Protect data in array by replacing values with '*' for selected keys.
      *
-     * @param array $keys
+     * @param  array  $keys
      *
-     * @return $this
+     * @return self
      */
-    private function protect($keys)
+    private function protect($keys): self
     {
-        if (count($keys))
-        {
+        if (count($keys)) {
             array_walk_recursive($this->data, function (&$value, $key) use ($keys)
             {
-                if (array_search($key, $keys) !== false)
-                {
+                if (array_search($key, $keys) !== false) {
                     $value = '*';
                 }
             });
@@ -98,5 +90,4 @@ class Post
 
         return $this;
     }
-
 }

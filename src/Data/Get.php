@@ -1,30 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Zablose\Allog\Data;
 
 class Get
 {
-
-    /**
-     * $_GET array as is.
-     *
-     * @var string
-     */
-    private $data;
+    private array $data;
 
     public function __construct()
     {
         $this->data = $_GET;
     }
 
-    /**
-     * Get $_GET array as JSON string.
-     *
-     * @return string
-     */
-    public function json()
+    public function toJson(): string
     {
         return json_encode($this->data);
     }
-
 }
