@@ -2,6 +2,8 @@
 
 namespace Zablose\Allog\Data;
 
+use Zablose\Allog\Config;
+
 /**
  * A container class for storing Server, Post and Get data in one place.
  */
@@ -28,7 +30,7 @@ class Container
      */
     private Get $get;
 
-    public function __construct(array $config)
+    public function __construct(Config $config)
     {
         $this->server = new Server();
         $this->post   = new Post($config);

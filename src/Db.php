@@ -13,25 +13,25 @@ class Db
 
     private PDO $pdo;
     private Tables $tables;
-    private array $config;
+    private Config $config;
 
-    public function __construct(array $config)
+    public function __construct(Config $config)
     {
         $this->config = $config;
 
-        $this->tables = new Tables($config['db']['prefix'] ?? '');
+        $this->tables = new Tables($config->db_prefix);
 
         $this->pdo = new PDO(
             $this->formDsnString(),
-            $config['db']['username'] ?? '',
-            $config['db']['password'] ?? '',
+            $config->db_username,
+            $config->db_password,
             [
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
                 PDO::ATTR_PERSISTENT => true,
             ]
         );
 
-        $this->throwExceptions($this->config['db']['debug'] ?? false);
+        $this->throwExceptions($this->config->db_debug);
     }
 
     protected function throwExceptions(bool $yes): void
@@ -43,11 +43,11 @@ class Db
 
     protected function formDsnString(): string
     {
-        return ($this->config['db']['connection'] ?? 'mysql').
-            ':host='.($this->config['db']['host'] ?? 'localhost').
-            ';port='.($this->config['db']['port'] ?? '3306').
-            ';dbname='.($this->config['db']['database'] ?? 'allog').
-            ';charset='.($this->config['db']['charset'] ?? 'utf8mb4');
+        return ($this->config->db_connection ?? 'mysql').
+            ':host='.($this->config->db_host ?? 'localhost').
+            ';port='.($this->config->db_port ?? '3306').
+            ';dbname='.($this->config->db_database ?? 'allog').
+            ';charset='.($this->config->db_charset ?? 'utf8mb4');
     }
 
     protected function truncate(string $table): bool

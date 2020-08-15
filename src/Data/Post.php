@@ -2,6 +2,8 @@
 
 namespace Zablose\Allog\Data;
 
+use Zablose\Allog\Config;
+
 class Post
 {
     private array $data;
@@ -13,10 +15,10 @@ class Post
      */
     private array $keys;
 
-    public function __construct(array $config)
+    public function __construct(Config $config)
     {
         $this->data = $_POST;
-        $this->keys = $config['protected'] ?? [];
+        $this->keys = $config->protected;
     }
 
     /**

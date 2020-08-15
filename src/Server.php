@@ -8,9 +8,9 @@ class Server
 {
     private Db $db;
     private Container $data;
-    private array $config;
+    private Config $config;
 
-    public function __construct(array $config)
+    public function __construct(Config $config)
     {
         $this->data   = new Container($config);
         $this->db     = new Db($config);
@@ -26,7 +26,7 @@ class Server
             );
         } else {
             $this->db->addRequest(
-                $this->config['server']['name'] ?? 'allog',
+                $this->config->server_name,
                 $this->data->toArray()
             );
         }

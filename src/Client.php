@@ -52,15 +52,15 @@ class Client
         self::STATE_LOCAL => self::STATE_LOCAL,
     ];
 
-    public function __construct(array $config = [])
+    public function __construct(Config $config)
     {
         $this->data = new Container($config);
 
         $this
-            ->setState($config['client']['state'] ?? null)
-            ->setName($config['client']['name'] ?? null)
-            ->setToken($config['client']['token'] ?? null)
-            ->setUrl($config['server']['url'] ?? null);
+            ->setState($config->client_state)
+            ->setName($config->client_name)
+            ->setToken($config->client_token)
+            ->setUrl($config->server_url);
     }
 
     /**
