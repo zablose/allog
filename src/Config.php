@@ -36,6 +36,8 @@ class Config
      */
     public array $protected = [];
 
+    private array $vars = [];
+
     public function __construct(string $path)
     {
         $this->readConfigFromDotEnvFile($path);
@@ -47,30 +49,19 @@ class Config
 
         if ($file) {
             while (($line = fgets($file)) !== false) {
-                if (stripos($line, 'allog_') === false) {
+                if (strpos($line, '=') === false) {
                     continue;
                 }
                 [$n, $v] = explode('=', $line);
-                $name  = str_replace('allog_', '', strtolower(trim($n)));
-                $value = trim($v);
-                if (isset($this->{$name})) {
-                    switch ($value) {
-                        case 'true':
-                            $this->{$name} = true;
-                            break;
-                        case 'false':
-                            $this->{$name} = false;
-                            break;
-                        case is_numeric($value):
-                            $this->{$name} = intval($value);
-                            break;
-                        default:
-                            $this->{$name} = $value;
-                    }
-                    continue;
+                $name = strtolower(trim($n));
+                $allog_name = str_replace('allog_', '', $name);
+                $value = trim(trim($v), '"\'');
+                $this->vars[$name] = $this->parseValue($value);
+                if (isset($this->{$allog_name})) {
+                    $this->{$allog_name} = $this->vars[$name];
                 }
-                if (strpos($name, 'protected') !== false) {
-                    $this->protected[] = substr($name, 10);
+                if (strpos($name, 'allog_protected') !== false) {
+                    $this->protected[] = $this->vars[$name];
                 }
             }
 
@@ -82,5 +73,32 @@ class Config
         }
 
         return $this;
+    }
+
+    private function parseValue(string $value)
+    {
+        if ($value === 'true') {
+            return true;
+        }
+
+        if ($value === 'false') {
+            return false;
+        }
+
+        if (is_numeric($value)) {
+            return intval($value);
+        }
+
+        $var_start = strpos($value, '${');
+        $var_end = strpos($value, '}');
+        while ($var_start !== false && $var_end !== false && $var_end > $var_start) {
+            $var_name = strtolower(substr($value, $var_start + 2, $var_end - $var_start - 2));
+            $var_value = $this->vars[$var_name] ?? 'undefined';
+            $value = str_replace('${'.strtoupper($var_name).'}', $var_value, $value);
+            $var_start = strpos($value, '${');
+            $var_end = strpos($value, '}');
+        }
+
+        return $value;
     }
 }
