@@ -12,8 +12,8 @@ class Server
 
     public function __construct(Config $config)
     {
-        $this->data   = new Container($config);
-        $this->db     = new Db($config);
+        $this->data = new Container($config);
+        $this->db = new Db($config);
         $this->config = $config;
     }
 

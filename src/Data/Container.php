@@ -33,8 +33,8 @@ class Container
     public function __construct(Config $config)
     {
         $this->server = new Server();
-        $this->post   = new Post($config);
-        $this->get    = new Get();
+        $this->post = new Post($config);
+        $this->get = new Get();
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace Zablose\Allog\Data;
 
+use Zablose\Allog\Db;
+
 class Server
 {
     /**
@@ -65,7 +67,7 @@ class Server
     {
         $data = (array) $this;
 
-        $data['request_time'] = date('Y-m-d H:i:s', $this->request_time);
+        $data['request_time'] = date(Db::DATE_FORMAT, $this->request_time);
 
         return $data;
     }

@@ -4,10 +4,10 @@ namespace Zablose\Allog;
 
 class Config
 {
-    public string $server_name = 'allog';
-    public string $server_timezone = 'Europe/London';
+    public bool $debug = false;
 
-    public bool $db_debug = false;
+    public string $server_name = 'allog';
+
     public string $db_connection = 'mysql';
     public string $db_host = 'localhost';
     public int $db_port = 3306;

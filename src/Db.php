@@ -7,8 +7,9 @@ use Exception;
 
 class Db
 {
-    const MESSAGE_TYPE_INFO    = 'info';
-    const MESSAGE_TYPE_ERROR   = 'error';
+    const DATE_FORMAT = 'Y-m-d H:i:s';
+    const MESSAGE_TYPE_ERROR = 'error';
+    const MESSAGE_TYPE_INFO = 'info';
     const MESSAGE_TYPE_WARNING = 'warning';
 
     private PDO $pdo;
@@ -31,7 +32,7 @@ class Db
             ]
         );
 
-        $this->throwExceptions($this->config->db_debug);
+        $this->throwExceptions($this->config->debug);
     }
 
     protected function throwExceptions(bool $yes): void
@@ -43,11 +44,11 @@ class Db
 
     protected function formDsnString(): string
     {
-        return ($this->config->db_connection ?? 'mysql').
-            ':host='.($this->config->db_host ?? 'localhost').
-            ';port='.($this->config->db_port ?? '3306').
-            ';dbname='.($this->config->db_database ?? 'allog').
-            ';charset='.($this->config->db_charset ?? 'utf8mb4');
+        return $this->config->db_connection.
+            ':host='.$this->config->db_host.
+            ';port='.$this->config->db_port.
+            ';dbname='.$this->config->db_database.
+            ';charset='.$this->config->db_charset;
     }
 
     protected function truncate(string $table): bool
@@ -97,7 +98,7 @@ class Db
      */
     protected function insert(string $table, array $fields): bool
     {
-        $now = date('Y-m-d H:i:s');
+        $now = date(self::DATE_FORMAT);
 
         $fields['created'] = $now;
 
@@ -202,7 +203,7 @@ class Db
 
     public function getLatestClients(int $num = 10): array
     {
-        $sql           = "SELECT * FROM `{$this->tables->clients()}` ORDER BY created DESC LIMIT $num";
+        $sql = "SELECT * FROM `{$this->tables->clients()}` ORDER BY created DESC LIMIT $num";
         $pdo_statement = $this->pdo->prepare($sql);
         $pdo_statement->execute();
 
@@ -211,8 +212,8 @@ class Db
 
     public function getLatestRequests(string $client_name, int $num = 10): array
     {
-        $table         = $this->tables->requests($client_name);
-        $sql           = "SELECT * FROM `$table` ORDER BY created DESC LIMIT $num";
+        $table = $this->tables->requests($client_name);
+        $sql = "SELECT * FROM `$table` ORDER BY created DESC LIMIT $num";
         $pdo_statement = $this->pdo->prepare($sql);
 
         $pdo_statement->execute();

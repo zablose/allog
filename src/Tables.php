@@ -4,7 +4,7 @@ namespace Zablose\Allog;
 
 class Tables
 {
-    const TABLE_CLIENTS  = 'clients';
+    const TABLE_CLIENTS = 'clients';
     const TABLE_MESSAGES = 'messages';
 
     /** Base table name for Allog requests tables. */
@@ -16,7 +16,7 @@ class Tables
 
     public function __construct(string $prefix)
     {
-        $this->clients  = $prefix.static::TABLE_CLIENTS;
+        $this->clients = $prefix.static::TABLE_CLIENTS;
         $this->messages = $prefix.static::TABLE_MESSAGES;
         $this->requests = $prefix.static::TABLE_REQUESTS;
     }

@@ -6,10 +6,10 @@ use Zablose\Allog\Data\Container;
 
 class Client
 {
-    const STATE_DISABLED    = 'disabled';
     const STATE_DEVELOPMENT = 'development';
-    const STATE_PRODUCTION  = 'production';
-    const STATE_LOCAL       = 'local';
+    const STATE_DISABLED = 'disabled';
+    const STATE_LOCAL = 'local';
+    const STATE_PRODUCTION = 'production';
 
     /** @var resource */
     private $ch;
@@ -91,7 +91,7 @@ class Client
         return $this;
     }
 
-    private function notConfiguredOrDisabled(): bool
+    private function isDisabledOrNotConfigured(): bool
     {
         return $this->state === self::STATE_DISABLED || empty($this->name) || empty($this->token) || empty($this->url);
     }
@@ -103,7 +103,9 @@ class Client
      */
     public function send(): self
     {
-        if ($this->notConfiguredOrDisabled()) {
+        if ($this->isDisabledOrNotConfigured()) {
+            trigger_error('Allog Client: Is disabled or not configured.', E_USER_NOTICE);
+
             return $this;
         }
 
