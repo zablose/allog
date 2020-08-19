@@ -4,6 +4,9 @@ namespace Zablose\Allog\Data;
 
 use Zablose\Allog\Db;
 
+/**
+ * Class with some data from the $_SERVER array as attributes.
+ */
 class Server
 {
     /**
@@ -53,9 +56,6 @@ class Server
         $this->load();
     }
 
-    /**
-     * Load values from the global $_SERVER array.
-     */
     private function load(): void
     {
         foreach (array_keys(get_object_vars($this)) as $attribute) {

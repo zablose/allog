@@ -4,16 +4,18 @@ namespace Zablose\Allog\Data;
 
 use Zablose\Allog\Config;
 
+/**
+ * Class with data from the $_POST array.
+ */
 class Post
 {
-    private array $data;
-
     /**
      * Data array keys to be protected by replacing values with '*'.
      *
      * @var array
      */
     private array $keys;
+    private array $data;
 
     public function __construct(Config $config)
     {

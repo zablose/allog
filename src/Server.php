@@ -6,15 +6,15 @@ use Zablose\Allog\Data\Container;
 
 class Server
 {
-    private Db $db;
-    private Container $data;
     private Config $config;
+    private Container $data;
+    private Db $db;
 
     public function __construct(Config $config)
     {
+        $this->config = $config;
         $this->data = new Container($config);
         $this->db = new Db($config);
-        $this->config = $config;
     }
 
     public function run(): self

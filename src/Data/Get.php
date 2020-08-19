@@ -2,6 +2,9 @@
 
 namespace Zablose\Allog\Data;
 
+/**
+ * Class with data from the $_GET array.
+ */
 class Get
 {
     private array $data;

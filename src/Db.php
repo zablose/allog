@@ -32,7 +32,7 @@ class Db
             ]
         );
 
-        $this->throwExceptions($this->config->debug);
+        $this->throwExceptions($config->debug);
     }
 
     protected function throwExceptions(bool $yes): void
