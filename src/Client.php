@@ -36,7 +36,9 @@ class Client
     public function send(): self
     {
         if ($this->isDisabledOrNotConfigured()) {
-            trigger_error(self::MSG_IS_DISABLED_OR_NOT_CONFIGURED, E_USER_NOTICE);
+            if ($this->config->debug) {
+                trigger_error(self::MSG_IS_DISABLED_OR_NOT_CONFIGURED, E_USER_NOTICE);
+            }
 
             return $this;
         }
@@ -50,7 +52,10 @@ class Client
             CURLOPT_USERAGENT => 'Allog Client',
             CURLOPT_PROTOCOLS => CURLPROTO_HTTPS,
             CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => $this->data->toArrayWithClientNameAndToken($this->config->client_name, $this->config->client_token),
+            CURLOPT_POSTFIELDS => $this->data->toArrayWithClientNameAndToken(
+                $this->config->client_name,
+                $this->config->client_token
+            ),
             CURLOPT_CONNECTTIMEOUT_MS => 200,
         ];
 
@@ -67,7 +72,7 @@ class Client
 
         $this->response = curl_exec($this->ch);
 
-        if (curl_errno($this->ch)) {
+        if (curl_errno($this->ch) && $this->config->debug) {
             trigger_error(print_r($this->getError(), true), E_USER_WARNING);
         }
 
