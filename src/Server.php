@@ -21,7 +21,7 @@ class Server
     {
         if ($this->auth()) {
             $this->db->addRequest(
-                $this->data->post()->name(),
+                $this->data->post()->getAllogClientName(),
                 $this->data->post()->toArray()
             );
         } else {
@@ -37,16 +37,16 @@ class Server
     private function auth(): bool
     {
         if ($this->data->server()->remote_addr === '127.0.0.1') {
-            return (bool) $this->data->post()->name();
+            return (bool) $this->data->post()->getAllogClientName();
         }
 
-        if (! $this->data->post()->name() || ! $this->data->post()->token()) {
+        if (! $this->data->post()->getAllogClientName() || ! $this->data->post()->getAllogClientToken()) {
             return false;
         }
 
         return $this->db->auth(
-            $this->data->post()->name(),
-            $this->data->post()->token(),
+            $this->data->post()->getAllogClientName(),
+            $this->data->post()->getAllogClientToken(),
             $this->data->server()->remote_addr
         );
     }

@@ -22,14 +22,17 @@ class Container
 
     public function toArrayWithClientNameAndToken(string $name, string $token): array
     {
-        return array_merge($this->toArray(), compact('name', 'token'));
+        return array_merge($this->toArray(), [
+            Post::KEY_CLIENT_NAME => $name,
+            Post::KEY_CLIENT_TOKEN => $token,
+        ]);
     }
 
     public function toArray(): array
     {
-        return array_merge($this->server->toArray(), [
-            'get' => $this->get->toJson(),
-            'post' => $this->post->toJson(),
+        return array_merge($this->server()->toArray(), [
+            'get' => $this->get()->toJsonAsObject(),
+            'post' => $this->post()->toJsonAsObject(),
         ]);
     }
 

@@ -14,8 +14,8 @@ class Get
         $this->data = $_GET;
     }
 
-    public function toJson(): string
+    public function toJsonAsObject(): string
     {
-        return json_encode($this->data);
+        return json_encode($this->data, JSON_FORCE_OBJECT);
     }
 }

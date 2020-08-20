@@ -9,48 +9,31 @@ use Zablose\Allog\Config;
  */
 class Post
 {
-    /**
-     * Data array keys to be protected by replacing values with '*'.
-     *
-     * @var array
-     */
-    private array $keys;
+    const KEY_CLIENT_NAME = 'allog_client_name';
+    const KEY_CLIENT_TOKEN = 'allog_client_token';
+
+    private Config $config;
     private array $data;
 
     public function __construct(Config $config)
     {
+        $this->config = $config;
         $this->data = $_POST;
-        $this->keys = $config->protected;
     }
 
-    /**
-     * Get client name from $_POST['name'] array.
-     *
-     * @return string
-     */
-    public function name(): string
+    public function getAllogClientName(): string
     {
-        return $this->data['name'] ?? '';
+        return $this->data[self::KEY_CLIENT_NAME] ?? '';
     }
 
-    /**
-     * Get client token from $_POST['token'] array.
-     *
-     * @return string
-     */
-    public function token(): string
+    public function getAllogClientToken(): string
     {
-        return $this->data['token'] ?? '';
+        return $this->data[self::KEY_CLIENT_TOKEN] ?? '';
     }
 
-    /**
-     * Get $_POST data as JSON string.
-     *
-     * @return string
-     */
-    public function toJson(): string
+    public function toJsonAsObject(): string
     {
-        return json_encode($this->protect($this->keys)->data);
+        return json_encode($this->protect($this->config->protected)->data, JSON_FORCE_OBJECT);
     }
 
     /**
