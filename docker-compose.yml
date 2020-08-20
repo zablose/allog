@@ -36,6 +36,7 @@ services:
       - ./.env:/home/${DAMP_USER_NAME}/.env
       - ./docker-damp/composer/cache/:/home/${DAMP_USER_NAME}/.composer/cache/
       - ./:${DAMP_WEB_DIR}/
+      - ./sql/allog.sql:/home/${DAMP_USER_NAME}/db.sql
     logging:
       driver: syslog
       options:

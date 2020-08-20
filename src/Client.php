@@ -81,10 +81,10 @@ class Client
 
     public function getResponse(): string
     {
-        return $this->response;
+        return htmlspecialchars($this->response);
     }
 
-    public function getHttpCode(): string
+    public function getHttpCode(): int
     {
         return curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
     }
