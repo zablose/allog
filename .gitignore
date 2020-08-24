@@ -1,5 +1,6 @@
 /.idea/
+/sql/allog.sql.sh
 /vendor/
-/.allog.server.config.php
 /.env
 /composer.lock
+/docker-compose.yml

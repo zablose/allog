@@ -16,7 +16,7 @@ class Client
     /** @var resource */
     private $ch;
     private Container $data;
-    private string $response;
+    private string $response = '';
     private Config $config;
 
     public function __construct(Config $config)
@@ -29,7 +29,7 @@ class Client
     {
         return $this->config->client_state === self::STATE_DISABLED
             || empty($this->config->client_name)
-            || empty($this->config->client_token)
+            || empty($this->config->client_token) && $this->config->client_state !== self::STATE_LOCAL
             || empty($this->config->server_url);
     }
 
@@ -70,7 +70,10 @@ class Client
 
         curl_setopt_array($this->ch, $options);
 
-        $this->response = curl_exec($this->ch);
+        $response = curl_exec($this->ch);
+        if ($options[CURLOPT_RETURNTRANSFER] === true && $response !== false) {
+            $this->response = $response;
+        }
 
         if (curl_errno($this->ch) && $this->config->debug) {
             trigger_error(print_r($this->getError(), true), E_USER_WARNING);
