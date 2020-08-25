@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="./vendor/autoload.php"
+         verbose="true"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="true"
+         timeoutForSmallTests="1"
+         timeoutForMediumTests="5"
+         timeoutForLargeTests="10"
+>
+    <testsuites>
+        <testsuite name="Unit">
+            <directory>./laravel/tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory>./laravel/tests/Feature</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <server name="APP_ENV" value="testing"/>
+        <server name="BCRYPT_ROUNDS" value="4"/>
+        <server name="CACHE_DRIVER" value="array"/>
+        <server name="DB_CONNECTION" value="sqlite"/>
+        <server name="DB_DATABASE" value=":memory:"/>
+        <server name="MAIL_MAILER" value="array"/>
+        <server name="QUEUE_CONNECTION" value="sync"/>
+        <server name="SESSION_DRIVER" value="array"/>
+    </php>
+    <logging>
+        <log type="coverage-text" target="php://stdout" showUncoveredFiles="true"/>
+        <log type="coverage-html" target="./coverage-report/"/>
+    </logging>
+</phpunit>
