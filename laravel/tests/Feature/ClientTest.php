@@ -1,31 +1,36 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use Faker\Factory as Faker;
-use GuzzleHttp\Client;
 use Tests\TestCase;
 
 class ClientTest extends TestCase
 {
     /** @test */
-    public function is_accessible()
+    public function sends_get_data_without_protection()
     {
-        $this->get('/client')->assertOk()->assertSeeText('Allog Client');
+        $uuid = $this->fake()->uuid;
+
+        $uri = '/client?uuid='.$uuid;
+
+        $this->get($uri)->assertOk()->assertSeeText('Allog Client');
+
+        $this->assertDatabaseHas('requests_allog_local', $this->buildRequestRowWithGet($uri));
     }
 
     /** @test */
-    public function sends_get_data()
+    public function sends_post_data_with_protection()
     {
-        $faker = Faker::create();
+        $uri = '/client';
 
-        $uuid = $faker->uuid;
+        $data = [
+            'uuid' => $this->fake()->uuid,
+            'password' => $this->fake()->password,
+        ];
 
-        $guzzle = new Client();
-        $body = $guzzle->get(secure_url('/client?name=testing&uuid='.$uuid))->getBody();
+        $this->post($uri, $data)->assertOk()->assertSeeText('Allog Client');
 
-        $this->assertStringContainsString('Allog Client', $body);
-
-        $this->assertDatabaseHas('requests_allog_local', ['get' => '{"url":"client","uuid":"'.$uuid.'"}']);
+        $data['password'] = '*';
+        $this->assertDatabaseHas('requests_allog_local', $this->buildRequestRowWithPost($uri, $data));
     }
 }
