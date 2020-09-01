@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\RequestsServer;
 use Tests\TestCase;
 
 class ServerTest extends TestCase
@@ -9,11 +10,16 @@ class ServerTest extends TestCase
     /** @test */
     public function saves_get_data_without_protection()
     {
-        $uri = '/?name=hello&password=qwerty';
+        $uuid = $this->fake()->uuid;
+        $uri = '/?name=hello&password=qwerty&uuid='.$uuid;
 
         $this->get($uri)->assertOk()->assertSeeText('Allog Server');
 
-        $this->assertDatabaseHas('requests_allog', $this->buildRequestRowWithGet($uri));
+        $model = RequestsServer::where($this->buildRequestRowWithGet($uri))->first();
+
+        $this->assertTrue($model !== null);
+
+        $model->delete();
     }
 
     /** @test */
@@ -30,6 +36,10 @@ class ServerTest extends TestCase
         $this->post($uri, $data)->assertOk()->assertSeeText('Allog Server');
 
         $data['password'] = '*';
-        $this->assertDatabaseHas('requests_allog', $this->buildRequestRowWithPost($uri, $data));
+        $model = RequestsServer::where($this->buildRequestRowWithPost($uri, $data))->first();
+
+        $this->assertTrue($model !== null);
+
+        $model->delete();
     }
 }
