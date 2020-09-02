@@ -38,12 +38,7 @@ class Config
 
     private array $vars = [];
 
-    public function __construct(string $path)
-    {
-        $this->readConfigFromDotEnvFile($path);
-    }
-
-    private function readConfigFromDotEnvFile(string $path): self
+    public function read(string $path): self
     {
         $file = fopen($path, 'r');
 

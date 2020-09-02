@@ -10,14 +10,14 @@ class AllogController extends Controller
 {
     public function server()
     {
-        (new Server(new Config(__DIR__.'/../../../../.env')))->run();
+        (new Server((new Config)->read(__DIR__.'/../../../../.env')))->run();
 
         return view('server');
     }
 
     public function client()
     {
-        $client = (new Client(new Config(__DIR__.'/../../../../.env')))->send();
+        $client = (new Client((new Config())->read(__DIR__.'/../../../../.env')))->send();
 
         return view('client', compact('client'));
     }
