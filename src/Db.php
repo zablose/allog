@@ -13,14 +13,14 @@ class Db
     const MESSAGE_TYPE_WARNING = 'warning';
 
     private PDO $pdo;
-    private Tables $tables;
+    private Table $table;
     private Config $config;
 
     public function __construct(Config $config)
     {
         $this->config = $config;
 
-        $this->tables = new Tables($config->db_prefix);
+        $this->table = new Table($config->db_prefix);
 
         $this->pdo = new PDO(
             $this->formDsnString(),
@@ -153,7 +153,7 @@ class Db
      */
     protected function addMessage(string $message, string $type = self::MESSAGE_TYPE_INFO): bool
     {
-        return $this->forcedInsert($this->tables->messages(), compact('type', 'message'));
+        return $this->forcedInsert($this->table->messages(), compact('type', 'message'));
     }
 
     /**
@@ -203,7 +203,7 @@ class Db
 
     public function getLatestClients(int $num = 10): array
     {
-        $sql = "SELECT * FROM `{$this->tables->clients()}` ORDER BY created DESC LIMIT $num";
+        $sql = "SELECT * FROM `{$this->table->clients()}` ORDER BY created DESC LIMIT $num";
         $pdo_statement = $this->pdo->prepare($sql);
         $pdo_statement->execute();
 
@@ -212,7 +212,7 @@ class Db
 
     public function getLatestRequests(string $client_name, int $num = 10): array
     {
-        $table = $this->tables->requests($client_name);
+        $table = $this->table->requests($client_name);
         $sql = "SELECT * FROM `$table` ORDER BY created DESC LIMIT $num";
         $pdo_statement = $this->pdo->prepare($sql);
 
@@ -223,13 +223,13 @@ class Db
 
     public function addRequest(string $client_name, array $fields): bool
     {
-        return $this->forcedInsert($this->tables->requests($client_name), $fields);
+        return $this->forcedInsert($this->table->requests($client_name), $fields);
     }
 
     public function addClient(string $name, string $token, string $ip): bool
     {
         return $this->insert(
-            $this->tables->clients(),
+            $this->table->clients(),
             [
                 'name' => $name,
                 'token' => $token,
@@ -248,7 +248,7 @@ class Db
             'active' => 1,
         ];
 
-        $sql = "SELECT `name` FROM `{$this->tables->clients()}` {$this->where($fields)} LIMIT 1";
+        $sql = "SELECT `name` FROM `{$this->table->clients()}` {$this->where($fields)} LIMIT 1";
 
         $pdo_statement = $this->pdo->prepare($sql);
         $pdo_statement->execute(array_values($fields));

@@ -2,7 +2,7 @@
 
 namespace Zablose\Allog;
 
-class Tables
+class Table
 {
     const TABLE_CLIENTS = 'clients';
     const TABLE_MESSAGES = 'messages';
