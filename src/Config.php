@@ -77,6 +77,8 @@ class Config
 
     private function parseValue(string $value)
     {
+        $value = $this->checkValueForVars($value);
+
         if ($value === 'true') {
             return true;
         }
@@ -86,9 +88,14 @@ class Config
         }
 
         if (is_numeric($value)) {
-            return intval($value);
+            return strpos($value, '.') === false ? intval($value) : floatval($value);
         }
 
+        return $value;
+    }
+
+    private function checkValueForVars(string $value)
+    {
         $var_start = strpos($value, '${');
         $var_end = strpos($value, '}');
         while ($var_start !== false && $var_end !== false && $var_end > $var_start) {
