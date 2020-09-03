@@ -51,15 +51,15 @@ class Server
      */
     public int $request_time = 0;
 
-    public function __construct()
+    public function __construct(array $data = null)
     {
-        $this->load();
+        $this->load($data ?? $_SERVER);
     }
 
-    private function load(): void
+    private function load(array $data): void
     {
         foreach (array_keys(get_object_vars($this)) as $attribute) {
-            $this->$attribute = $_SERVER[strtoupper($attribute)] ?? '';
+            $this->$attribute = $data[strtoupper($attribute)] ?? '';
         }
     }
 

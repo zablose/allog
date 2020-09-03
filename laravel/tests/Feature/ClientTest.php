@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\RequestsClient;
+use App\Models\RequestsClientLocal;
 use Tests\TestCase;
 
 class ClientTest extends TestCase
@@ -16,7 +16,7 @@ class ClientTest extends TestCase
 
         $this->get($uri)->assertOk()->assertSeeText('Allog Client');
 
-        $model = RequestsClient::where($this->buildRequestRowWithGet($uri))->first();
+        $model = RequestsClientLocal::where($this->buildRequestRowWithGet($uri))->first();
 
         $this->assertTrue($model !== null);
 
@@ -36,7 +36,7 @@ class ClientTest extends TestCase
         $this->post($uri, $data)->assertOk()->assertSeeText('Allog Client');
 
         $data['password'] = '*';
-        $model = RequestsClient::where($this->buildRequestRowWithPost($uri, $data))->first();
+        $model = RequestsClientLocal::where($this->buildRequestRowWithPost($uri, $data))->first();
 
         $this->assertTrue($model !== null);
 

@@ -10,7 +10,7 @@ class AllogController extends Controller
 {
     public function server()
     {
-        (new Server((new Config)->read(__DIR__.'/../../../../.env')))->run();
+        (new Server((new Config())->read(__DIR__.'/../../../../.env')))->run();
 
         return view('server');
     }
@@ -20,5 +20,14 @@ class AllogController extends Controller
         $client = (new Client((new Config())->read(__DIR__.'/../../../../.env')))->send();
 
         return view('client', compact('client'));
+    }
+
+    public function server_with_remote_client()
+    {
+        $_SERVER['REMOTE_ADDR'] = env('ALLOG_CLIENT_1_IP');
+
+        (new Server((new Config())->read(__DIR__.'/../../../../.env')))->run();
+
+        return view('server');
     }
 }

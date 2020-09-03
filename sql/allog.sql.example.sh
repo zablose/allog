@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS \`clients\`
 INSERT INTO \`clients\`
 (name, token, remote_addr, active, updated, created)
 VALUES
-    ('${ALLOG_CLIENT_NAME}', 'local', '127.0.0.1', 1, NOW(), NOW()),
+    ('${ALLOG_CLIENT_NAME}', '${ALLOG_CLIENT_TOKEN}', '${ALLOG_CLIENT_IP}', 1, NOW(), NOW()),
     ('${ALLOG_CLIENT_1_NAME}', '${ALLOG_CLIENT_1_TOKEN}', '${ALLOG_CLIENT_1_IP}', 1, NOW(), NOW());
 
 CREATE TABLE IF NOT EXISTS \`messages\`

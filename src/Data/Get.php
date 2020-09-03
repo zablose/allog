@@ -9,9 +9,9 @@ class Get
 {
     private array $data;
 
-    public function __construct()
+    public function __construct(array $data = null)
     {
-        $this->data = $_GET;
+        $this->data = $data ?? $_GET;
     }
 
     public function toJsonAsObject(): string
