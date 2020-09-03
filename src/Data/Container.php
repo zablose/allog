@@ -16,7 +16,7 @@ class Container
     public function __construct(Config $config)
     {
         $this->server = new Server();
-        $this->post = new Post($config);
+        $this->post = (new Post())->setProtectedKeys($config->protected);
         $this->get = new Get();
     }
 

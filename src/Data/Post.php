@@ -2,8 +2,6 @@
 
 namespace Zablose\Allog\Data;
 
-use Zablose\Allog\Config;
-
 /**
  * Class with data from the $_POST array.
  */
@@ -12,13 +10,19 @@ class Post
     const KEY_CLIENT_NAME = 'allog_client_name';
     const KEY_CLIENT_TOKEN = 'allog_client_token';
 
-    private Config $config;
     private array $data;
+    private array $protected_keys = [];
 
-    public function __construct(Config $config)
+    public function __construct(array $data = null)
     {
-        $this->config = $config;
-        $this->data = $_POST;
+        $this->data = $data ?? $_POST;
+    }
+
+    public function setProtectedKeys(array $keys): self
+    {
+        $this->protected_keys = $keys;
+
+        return $this;
     }
 
     public function getAllogClientName(): string
@@ -33,7 +37,7 @@ class Post
 
     public function toJsonAsObject(): string
     {
-        return json_encode($this->protect($this->config->protected)->data, JSON_FORCE_OBJECT);
+        return json_encode($this->protect($this->protected_keys)->data, JSON_FORCE_OBJECT);
     }
 
     /**
