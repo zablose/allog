@@ -112,6 +112,11 @@ class Client
         ];
     }
 
+    public function getCurlHandle()
+    {
+        return $this->ch;
+    }
+
     public function __destruct()
     {
         if ($this->ch) {
