@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Clients;
+use App\Models\RequestsClientLocal;
 use Tests\TestCase;
 use Zablose\Allog\Config;
 use Zablose\Allog\Db;
@@ -37,10 +38,26 @@ class DbTest extends TestCase
     {
         $this->db()->addClient($name = 'testing_client', 'token', '127.0.0.2');
 
-        $client = $this->db()->getLatestClients(1);
+        $clients = $this->db()->getLatestClients(1);
 
-        $this->assertTrue($client[0]->name === $name);
+        $this->assertIsArray($clients);
+        $this->assertSame($name, $clients[0]->name);
 
-        Clients::where(compact('name'))->first()->delete();
+        Clients::where(compact('name'))->delete();
+    }
+
+    /** @test */
+    public function gets_latest_requests()
+    {
+        $uuid = $this->fake()->uuid;
+
+        $this->post('/client', compact('uuid'));
+
+        $requests = $this->db()->getLatestRequests(env('ALLOG_CLIENT_NAME'), 1);
+
+        $this->assertIsArray($requests);
+        $this->assertStringContainsString($uuid, $requests[0]->post);
+
+        RequestsClientLocal::where((array) $requests[0])->delete();
     }
 }
