@@ -109,4 +109,29 @@ class DbTest extends TestCase
 
         $model->delete();
     }
+
+    /** @test */
+    public function triggers_truncate_table()
+    {
+        $type = Db::MESSAGE_TYPE_INFO;
+        $message = $this->fake()->sentence;
+
+        Message::create([
+            'id' => 255,
+            'type' => $type,
+            'message' => $message,
+            'created' => $this->fake()->dateTime,
+        ]);
+
+        $this->db()->addInfo($message);
+
+        $model = Message::where(['type' => Db::MESSAGE_TYPE_WARNING])->first();
+        $this->assertNotNull($model);
+        $this->assertStringContainsString('Table was truncated!', $model->message);
+        $model->delete();
+
+        $model = Message::where(compact('type', 'message'))->first();
+        $this->assertNotNull($model);
+        $model->delete();
+    }
 }

@@ -7,6 +7,9 @@ use Zablose\Allog\Table;
 
 class Message extends Model
 {
+    public $timestamps = false;
+    protected $guarded = [];
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);

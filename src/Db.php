@@ -77,7 +77,7 @@ class Db
             if ((int) $exception->getCode() === 22003) {
                 $this->truncate($table);
 
-                $this->addWarning("ID is out of range for the table '$table'. Table has been truncated!");
+                $this->addWarning("ID is out of range for the table '$table'. Table was truncated!");
 
                 $result = $this->insert($table, $fields);
             } else {
