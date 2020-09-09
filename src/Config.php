@@ -38,6 +38,20 @@ class Config
 
     private array $vars = [];
 
+    public function debugOn(): self
+    {
+        $this->debug = true;
+
+        return $this;
+    }
+
+    public function debugOff(): self
+    {
+        $this->debug = false;
+
+        return $this;
+    }
+
     public function read(string $path): self
     {
         $file = fopen($path, 'r');
