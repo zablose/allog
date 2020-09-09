@@ -2,7 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\Clients;
+use App\Models\Client;
+use App\Models\Message;
 use App\Models\RequestsClientLocal;
 use Tests\TestCase;
 use Zablose\Allog\Config;
@@ -26,7 +27,7 @@ class DbTest extends TestCase
     {
         $this->db()->addClient($name = 'testing_client', 'token', '127.0.0.2');
 
-        $model = Clients::where(compact('name'))->first();
+        $model = Client::where(compact('name'))->first();
 
         $this->assertTrue($model !== null);
 
@@ -43,7 +44,7 @@ class DbTest extends TestCase
         $this->assertIsArray($clients);
         $this->assertSame($name, $clients[0]->name);
 
-        Clients::where(compact('name'))->delete();
+        Client::where(compact('name'))->delete();
     }
 
     /** @test */
@@ -59,5 +60,53 @@ class DbTest extends TestCase
         $this->assertStringContainsString($uuid, $requests[0]->post);
 
         RequestsClientLocal::where((array) $requests[0])->delete();
+    }
+
+    /** @test */
+    public function adds_info()
+    {
+        $type = Db::MESSAGE_TYPE_INFO;
+        $message = $this->fake()->sentence;
+
+        $this->db()->addInfo($message);
+
+        $model = Message::where(compact('type', 'message'))->first();
+
+        $this->assertNotNull($model);
+        $this->assertSame($message, $model->message);
+
+        $model->delete();
+    }
+
+    /** @test */
+    public function adds_warning()
+    {
+        $type = Db::MESSAGE_TYPE_WARNING;
+        $message = $this->fake()->sentence;
+
+        $this->db()->addWarning($message);
+
+        $model = Message::where(compact('type', 'message'))->first();
+
+        $this->assertNotNull($model);
+        $this->assertSame($message, $model->message);
+
+        $model->delete();
+    }
+
+    /** @test */
+    public function adds_error()
+    {
+        $type = Db::MESSAGE_TYPE_ERROR;
+        $message = $this->fake()->sentence;
+
+        $this->db()->addError($message);
+
+        $model = Message::where(compact('type', 'message'))->first();
+
+        $this->assertNotNull($model);
+        $this->assertSame($message, $model->message);
+
+        $model->delete();
     }
 }

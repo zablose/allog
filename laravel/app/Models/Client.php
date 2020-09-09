@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Zablose\Allog\Table;
 
-class Clients extends Model
+class Client extends Model
 {
     protected $primaryKey = 'name';
 
