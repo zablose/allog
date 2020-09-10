@@ -134,4 +134,13 @@ class DbTest extends TestCase
         $this->assertNotNull($model);
         $model->delete();
     }
+
+    /** @test */
+    public function rethrows_exception_when_forced_insert_in_use()
+    {
+        $this->expectExceptionCode('42S02');
+        $this->expectExceptionMessage('Base table or view not found');
+
+        $this->db()->addRequest('testing_client', []);
+    }
 }

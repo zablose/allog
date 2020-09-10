@@ -98,7 +98,27 @@ class ServerTest extends TestCase
 
         $model = RequestsClientRemote::where($data)->first();
 
-        $this->assertTrue($model !== null);
+        $this->assertNotNull($model);
+
+        $model->delete();
+    }
+
+    /** @test */
+    public function fails_auth_if_client_name_is_missing()
+    {
+        $uuid = $this->fake()->uuid;
+        $uri = '/server-with-remote-client?uuid='.$uuid;
+
+        $data = ['get' => '{"uuid":"'.$uuid.'"}'];
+        $auth = [Post::KEY_CLIENT_TOKEN => env('ALLOG_CLIENT_1_TOKEN')];
+
+        $this->post($uri, array_merge($data, $auth))->assertOk()->assertSeeText('Allog Server');
+
+        $this->assertNull(RequestsClientRemote::where($data)->first());
+
+        $model = RequestsServer::where(['request_uri' => $uri])->first();
+
+        $this->assertNotNull($model);
 
         $model->delete();
     }
