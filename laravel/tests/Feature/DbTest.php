@@ -52,7 +52,11 @@ class DbTest extends TestCase
     {
         $uuid = $this->fake()->uuid;
 
-        $this->post('/client', compact('uuid'));
+        $data = compact('uuid');
+
+        $this->setGlobalsServerGetPost($uri = '/client', $data);
+
+        $this->post($uri, $data);
 
         $requests = $this->db()->getLatestRequests(env('ALLOG_CLIENT_NAME'), 1);
 

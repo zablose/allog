@@ -14,11 +14,13 @@ class ClientTest extends TestCase
 
         $uri = '/client?uuid='.$uuid;
 
+        $this->setGlobalsServerGetPost($uri);
+
         $this->get($uri)->assertOk()->assertSeeText('Allog Client');
 
-        $model = RequestsClientLocal::where($this->buildRequestRowWithGet($uri))->first();
+        $model = RequestsClientLocal::where($this->makeRequestData($uri))->first();
 
-        $this->assertTrue($model !== null);
+        $this->assertNotNull($model);
 
         $model->delete();
     }
@@ -33,12 +35,14 @@ class ClientTest extends TestCase
             'password' => $this->fake()->password,
         ];
 
+        $this->setGlobalsServerGetPost($uri, $data, 'POST');
+
         $this->post($uri, $data)->assertOk()->assertSeeText('Allog Client');
 
         $data['password'] = '*';
-        $model = RequestsClientLocal::where($this->buildRequestRowWithPost($uri, $data))->first();
+        $model = RequestsClientLocal::where($this->makeRequestData($uri, $data, 'POST'))->first();
 
-        $this->assertTrue($model !== null);
+        $this->assertNotNull($model);
 
         $model->delete();
     }
