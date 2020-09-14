@@ -19,16 +19,16 @@
         "ext-json": "*"
     },
     "require-dev": {
-        "facade/ignition": "^2.0.4",
-        "fideloper/proxy": "^4.3.0",
-        "fruitcake/laravel-cors": "^2.0",
+        "facade/ignition": "^2.3.7",
+        "fideloper/proxy": "^4.4.0",
+        "fruitcake/laravel-cors": "^2.0.2",
         "fzaninotto/faker": "^1.9.1",
-        "guzzlehttp/guzzle": "^6.5.3",
-        "laravel/framework": "^7.24",
-        "laravel/tinker": "^2.4.0",
-        "mockery/mockery": "^1.4.0",
-        "nunomaduro/collision": "^4.2.0",
-        "phpunit/phpunit": "^9.1.4"
+        "guzzlehttp/guzzle": "^7.0.1",
+        "laravel/framework": "^8.2.0",
+        "laravel/tinker": "^2.4.2",
+        "mockery/mockery": "^1.4.2",
+        "nunomaduro/collision": "^5.0.2",
+        "phpunit/phpunit": "^9.3.10"
     },
     "autoload": {
         "psr-4": {
@@ -42,7 +42,7 @@
         },
         "classmap": [
             "laravel/database/factories",
-            "laravel/database/seeds"
+            "laravel/database/seeders"
         ]
     },
     "config": {
