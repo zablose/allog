@@ -41,7 +41,6 @@
             "Tests\\": "laravel/tests/"
         },
         "classmap": [
-            "laravel/database/factories",
             "laravel/database/seeders"
         ]
     },
