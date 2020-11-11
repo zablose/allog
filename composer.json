@@ -19,16 +19,16 @@
         "ext-json": "*"
     },
     "require-dev": {
-        "facade/ignition": "^2.3.7",
-        "fideloper/proxy": "^4.4.0",
-        "fruitcake/laravel-cors": "^2.0.2",
+        "facade/ignition": "^2.5.0",
+        "fideloper/proxy": "^4.4.1",
+        "fruitcake/laravel-cors": "^2.0.3",
         "fzaninotto/faker": "^1.9.1",
-        "guzzlehttp/guzzle": "^7.0.1",
-        "laravel/framework": "^8.2.0",
-        "laravel/tinker": "^2.4.2",
+        "guzzlehttp/guzzle": "^7.2.0",
+        "laravel/framework": "^8.14.0",
+        "laravel/tinker": "^2.5.0",
         "mockery/mockery": "^1.4.2",
-        "nunomaduro/collision": "^5.0.2",
-        "phpunit/phpunit": "^9.3.10"
+        "nunomaduro/collision": "^5.1.0",
+        "phpunit/phpunit": "^9.4.3"
     },
     "autoload": {
         "psr-4": {
