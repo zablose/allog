@@ -69,24 +69,4 @@ class ClientTest extends TestCase
 
         (new Client($config))->send();
     }
-
-    /** @test */
-    public function close_curl_handle_on_destruct()
-    {
-        $config = new Config();
-        $config->debug = true;
-        $config->client_state = Client::STATE_PRODUCTION;
-        $config->client_name = 'Testing';
-        $config->client_token = 'token';
-
-        $client = (new Client($config))->send();
-
-        $ch = $client->getCurlHandle();
-
-        $this->assertTrue(is_resource($ch));
-
-        unset($client);
-
-        $this->assertNotTrue(is_resource($ch));
-    }
 }

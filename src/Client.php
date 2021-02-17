@@ -111,16 +111,4 @@ class Client
             'response' => 'n/a',
         ];
     }
-
-    public function getCurlHandle()
-    {
-        return $this->ch;
-    }
-
-    public function __destruct()
-    {
-        if ($this->ch) {
-            curl_close($this->ch);
-        }
-    }
 }
