@@ -15,8 +15,9 @@
     "require": {
         "php": "~7.4|^8.0",
         "ext-curl": "*",
+        "ext-json": "*",
         "ext-pdo": "*",
-        "ext-json": "*"
+        "zablose/dotenv": "^1.1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5.13",
