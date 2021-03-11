@@ -56,21 +56,21 @@ class Config
     {
         (new Env())->setArrays(['ALLOG_PROTECTED'])->read($path);
 
-        $this->debug = (bool) Env::get('ALLOG_DEBUG', false);
-        $this->server_name = (string) Env::get('ALLOG_SERVER_NAME', 'allog');
-        $this->db_connection = (string) Env::get('ALLOG_DB_CONNECTION', 'mysql');
-        $this->db_host = (string) Env::get('ALLOG_DB_HOST', 'localhost');
-        $this->db_port = (int) Env::get('ALLOG_DB_PORT', 3306);
-        $this->db_database = (string) Env::get('ALLOG_DB_DATABASE', 'allog');
-        $this->db_username = (string) Env::get('ALLOG_DB_USERNAME', 'allog');
-        $this->db_password = (string) Env::get('ALLOG_DB_PASSWORD', '');
-        $this->db_charset = (string) Env::get('ALLOG_DB_CHARSET', 'utf8mb4');
-        $this->db_prefix = (string) Env::get('ALLOG_DB_PREFIX', '');
-        $this->client_state = (string) Env::get('ALLOG_CLIENT_STATE', 'disabled');
-        $this->client_name = (string) Env::get('ALLOG_CLIENT_NAME', '');
-        $this->client_token = (string) Env::get('ALLOG_CLIENT_TOKEN', '');
-        $this->server_url = (string) Env::get('ALLOG_SERVER_URL', 'https://www.allog.zdev/');
-        $this->protected = (array) Env::get('ALLOG_PROTECTED', []);
+        $this->debug = Env::bool('ALLOG_DEBUG');
+        $this->server_name = Env::string('ALLOG_SERVER_NAME', 'allog');
+        $this->db_connection = Env::string('ALLOG_DB_CONNECTION', 'mysql');
+        $this->db_host = Env::string('ALLOG_DB_HOST', 'localhost');
+        $this->db_port = Env::int('ALLOG_DB_PORT', 3306);
+        $this->db_database = Env::string('ALLOG_DB_DATABASE', 'allog');
+        $this->db_username = Env::string('ALLOG_DB_USERNAME', 'allog');
+        $this->db_password = Env::string('ALLOG_DB_PASSWORD');
+        $this->db_charset = Env::string('ALLOG_DB_CHARSET', 'utf8mb4');
+        $this->db_prefix = Env::string('ALLOG_DB_PREFIX');
+        $this->client_state = Env::string('ALLOG_CLIENT_STATE', 'disabled');
+        $this->client_name = Env::string('ALLOG_CLIENT_NAME');
+        $this->client_token = Env::string('ALLOG_CLIENT_TOKEN');
+        $this->server_url = Env::string('ALLOG_SERVER_URL', 'https://www.allog.zdev/');
+        $this->protected = Env::array('ALLOG_PROTECTED');
 
         return $this;
     }
