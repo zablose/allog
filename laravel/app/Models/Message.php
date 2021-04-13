@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @noinspection PhpMissingFieldTypeInspection
+ */
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;

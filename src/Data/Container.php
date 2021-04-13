@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Zablose\Allog\Data;
 
@@ -22,18 +24,24 @@ class Container
 
     public function toArrayWithClientNameAndToken(string $name, string $token): array
     {
-        return array_merge($this->toArray(), [
-            Post::KEY_CLIENT_NAME => $name,
-            Post::KEY_CLIENT_TOKEN => $token,
-        ]);
+        return array_merge(
+            $this->toArray(),
+            [
+                Post::KEY_CLIENT_NAME => $name,
+                Post::KEY_CLIENT_TOKEN => $token,
+            ]
+        );
     }
 
     public function toArray(): array
     {
-        return array_merge($this->server()->toArray(), [
-            'get' => $this->get()->toJsonAsObject(),
-            'post' => $this->post()->toJsonAsObject(),
-        ]);
+        return array_merge(
+            $this->server()->toArray(),
+            [
+                'get' => $this->get()->toJsonAsObject(),
+                'post' => $this->post()->toJsonAsObject(),
+            ]
+        );
     }
 
     public function server(): Server

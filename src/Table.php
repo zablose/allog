@@ -1,14 +1,16 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Zablose\Allog;
 
 class Table
 {
-    const TABLE_CLIENTS = 'clients';
-    const TABLE_MESSAGES = 'messages';
+    public const TABLE_CLIENTS = 'clients';
+    public const TABLE_MESSAGES = 'messages';
 
     /** Base table name for Allog requests tables. */
-    const TABLE_REQUESTS = 'requests_';
+    public const TABLE_REQUESTS = 'requests_';
 
     private string $clients;
     private string $messages;

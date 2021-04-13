@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Zablose\Allog;
 
@@ -37,7 +39,7 @@ class Server
     private function auth(): bool
     {
         if ($this->data->server()->remote_addr === '127.0.0.1') {
-            return (bool) $this->data->post()->getAllogClientName();
+            return (bool)$this->data->post()->getAllogClientName();
         }
 
         if (! $this->data->post()->getAllogClientName() || ! $this->data->post()->getAllogClientToken()) {

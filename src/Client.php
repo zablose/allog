@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Zablose\Allog;
 
@@ -6,12 +8,12 @@ use Zablose\Allog\Data\Container;
 
 class Client
 {
-    const STATE_DEVELOPMENT = 'development';
-    const STATE_DISABLED = 'disabled';
-    const STATE_LOCAL = 'local';
-    const STATE_PRODUCTION = 'production';
+    public const STATE_DEVELOPMENT = 'development';
+    public const STATE_DISABLED = 'disabled';
+    public const STATE_LOCAL = 'local';
+    public const STATE_PRODUCTION = 'production';
 
-    const MSG_IS_DISABLED_OR_NOT_CONFIGURED = 'Allog Client: Is disabled or not configured.';
+    public const MSG_IS_DISABLED_OR_NOT_CONFIGURED = 'Allog Client: Is disabled or not configured.';
 
     /** @var resource */
     private $ch;
@@ -99,12 +101,12 @@ class Client
      */
     public function getError(): object
     {
-        return $this->ch ? (object) [
+        return $this->ch ? (object)[
             'error_number' => curl_errno($this->ch),
             'error_message' => curl_error($this->ch),
             'http_code' => $this->getHttpCode(),
             'response' => $this->getResponse(),
-        ] : (object) [
+        ] : (object)[
             'error_number' => 'n/a',
             'error_message' => self::MSG_IS_DISABLED_OR_NOT_CONFIGURED,
             'http_code' => 'n/a',

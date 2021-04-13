@@ -12,8 +12,8 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
-    const HTTP_USER_AGENT = 'Laravel Testing';
-    const REMOTE_ADDR = '127.0.0.1';
+    public const HTTP_USER_AGENT = 'Laravel Testing';
+    public const REMOTE_ADDR = '127.0.0.1';
 
     private static ?FakerGenerator $faker_generator = null;
 

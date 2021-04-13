@@ -16,15 +16,18 @@ class CreateClientsTable extends Migration
 
     public function up(): void
     {
-        Schema::create($this->table_name, function (Blueprint $table)
-        {
-            $table->string('name', 32)->unique();
-            $table->char('token', 32);
-            $table->char('remote_addr', 15);
-            $table->boolean('active')->default(true);
-            $table->dateTime('updated');
-            $table->dateTime('created');
-        });
+        Schema::create(
+            $this->table_name,
+            function (Blueprint $table)
+            {
+                $table->string('name', 32)->unique();
+                $table->char('token', 32);
+                $table->char('remote_addr', 15);
+                $table->boolean('active')->default(true);
+                $table->dateTime('updated');
+                $table->dateTime('created');
+            }
+        );
     }
 
     public function down(): void
