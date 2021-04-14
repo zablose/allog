@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Zablose\Allog;
 
 use Zablose\Allog\Data\Container;
+use Zablose\Allog\Config\Client as Config;
 
 class Client
 {
@@ -24,7 +25,8 @@ class Client
     public function __construct(Config $config)
     {
         $this->config = $config;
-        $this->data = new Container($config);
+        $this->data = new Container();
+        $this->data->post()->setProtectedKeys($config->protected);
     }
 
     private function isDisabledOrNotConfigured(): bool

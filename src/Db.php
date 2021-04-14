@@ -6,6 +6,7 @@ namespace Zablose\Allog;
 
 use PDO;
 use Exception;
+use Zablose\Allog\Config\Server as Config;
 
 class Db
 {

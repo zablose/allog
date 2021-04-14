@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Zablose\Allog;
 
 use Zablose\Allog\Data\Container;
+use Zablose\Allog\Config\Server as Config;
 
 class Server
 {
@@ -15,7 +16,7 @@ class Server
     public function __construct(Config $config)
     {
         $this->config = $config;
-        $this->data = new Container($config);
+        $this->data = new Container();
         $this->db = new Db($config);
     }
 

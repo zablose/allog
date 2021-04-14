@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Zablose\Allog\Data;
 
-use Zablose\Allog\Config;
-
 /**
  * Container class for storing Server, Post and Get data in one place.
  */
@@ -15,10 +13,10 @@ class Container
     private Post $post;
     private Get $get;
 
-    public function __construct(Config $config)
+    public function __construct()
     {
         $this->server = new Server();
-        $this->post = (new Post())->setProtectedKeys($config->protected);
+        $this->post = new Post();
         $this->get = new Get();
     }
 

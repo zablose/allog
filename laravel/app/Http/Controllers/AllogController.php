@@ -3,21 +3,22 @@
 namespace App\Http\Controllers;
 
 use Zablose\Allog\Client;
-use Zablose\Allog\Config;
+use Zablose\Allog\Config\Client as ClientConfig;
+use Zablose\Allog\Config\Server as ServerConfig;
 use Zablose\Allog\Server;
 
 class AllogController extends Controller
 {
     public function server()
     {
-        (new Server((new Config())->read(__DIR__.'/../../../../.env')))->run();
+        (new Server((new ServerConfig())->read(__DIR__.'/../../../../.env')))->run();
 
         return view('server');
     }
 
     public function client()
     {
-        $client = (new Client((new Config())->read(__DIR__.'/../../../../.env')))->send();
+        $client = (new Client((new ClientConfig())->read(__DIR__.'/../../../../.env')))->send();
 
         return view('client', compact('client'));
     }
@@ -26,7 +27,7 @@ class AllogController extends Controller
     {
         $_SERVER['REMOTE_ADDR'] = env('ALLOG_CLIENT_1_IP');
 
-        (new Server((new Config())->read(__DIR__.'/../../../../.env')))->run();
+        (new Server((new ServerConfig())->read(__DIR__.'/../../../../.env')))->run();
 
         return view('server');
     }

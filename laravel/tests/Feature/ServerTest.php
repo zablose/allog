@@ -29,7 +29,7 @@ class ServerTest extends TestCase
     }
 
     /** @test */
-    public function saves_post_data_with_protection()
+    public function saves_post_data_without_protection()
     {
         $uuid = $this->fake()->uuid;
         $uri = '/server?name=hello';
@@ -43,7 +43,6 @@ class ServerTest extends TestCase
 
         $this->post($uri, $data)->assertOk()->assertSeeText('Allog Server');
 
-        $data['password'] = '*';
         $model = RequestsServer::where($this->makeRequestData($uri, $data, 'POST'))->first();
 
         $this->assertNotNull($model);

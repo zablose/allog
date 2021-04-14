@@ -6,7 +6,7 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Zablose\Allog\Client;
-use Zablose\Allog\Config;
+use Zablose\Allog\Config\Client as Config;
 
 class ClientTest extends TestCase
 {

@@ -8,7 +8,7 @@ use App\Models\Client;
 use App\Models\Message;
 use App\Models\RequestsClientLocal;
 use Tests\TestCase;
-use Zablose\Allog\Config;
+use Zablose\Allog\Config\Server as Config;
 use Zablose\Allog\Db;
 
 class DbTest extends TestCase
