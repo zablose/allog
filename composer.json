@@ -20,16 +20,16 @@
         "zablose/dotenv": "^1.2.1"
     },
     "require-dev": {
-        "facade/ignition": "^2.5.14",
+        "facade/ignition": "^2.8.3",
         "fideloper/proxy": "^4.4.1",
         "fruitcake/laravel-cors": "^2.0.3",
-        "fakerphp/faker": "^1.13.0",
-        "guzzlehttp/guzzle": "^7.2.0",
-        "laravel/framework": "^8.32.1",
+        "fakerphp/faker": "^1.14.1",
+        "guzzlehttp/guzzle": "^7.3.0",
+        "laravel/framework": "^8.37.0",
         "laravel/tinker": "^2.6.1",
         "mockery/mockery": "^1.4.3",
-        "nunomaduro/collision": "^5.3.0",
-        "phpunit/phpunit": "^9.5.2"
+        "nunomaduro/collision": "^5.4.0",
+        "phpunit/phpunit": "^9.5.4"
     },
     "autoload": {
         "psr-4": {

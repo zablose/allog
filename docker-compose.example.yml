@@ -36,7 +36,7 @@ services:
       - ./.env:/home/${DAMP_USER_NAME}/.env
       - $HOME/.composer/cache/:/home/${DAMP_USER_NAME}/.composer/cache/
       - ./:${DAMP_WEB_DIR}/
-      - ./laravel/app.sh:/home/${DAMP_USER_NAME}/post-setup.sh
+      - ./post-setup.sh:/home/${DAMP_USER_NAME}/post-setup.sh
     logging:
       driver: syslog
       options:
