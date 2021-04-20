@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Zablose\Allog\Data;
 
@@ -7,8 +9,8 @@ namespace Zablose\Allog\Data;
  */
 class Post
 {
-    const KEY_CLIENT_NAME = 'allog_client_name';
-    const KEY_CLIENT_TOKEN = 'allog_client_token';
+    public const KEY_CLIENT_NAME = 'allog_client_name';
+    public const KEY_CLIENT_TOKEN = 'allog_client_token';
 
     private array $data;
     private array $protected_keys = [];
@@ -71,12 +73,15 @@ class Post
     private function protect($keys): self
     {
         if (count($keys)) {
-            array_walk_recursive($this->data, function (&$value, $key) use ($keys)
-            {
-                if (array_search($key, $keys) !== false) {
-                    $value = '*';
+            array_walk_recursive(
+                $this->data,
+                function (&$value, $key) use ($keys)
+                {
+                    if (array_search($key, $keys) !== false) {
+                        $value = '*';
+                    }
                 }
-            });
+            );
         }
 
         return $this;

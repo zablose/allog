@@ -13,22 +13,23 @@
         }
     ],
     "require": {
-        "php": "~7.4",
+        "php": "~7.4|^8.0",
         "ext-curl": "*",
+        "ext-json": "*",
         "ext-pdo": "*",
-        "ext-json": "*"
+        "zablose/dotenv": "^1.2.1"
     },
     "require-dev": {
-        "facade/ignition": "^2.5.0",
+        "facade/ignition": "^2.8.3",
         "fideloper/proxy": "^4.4.1",
         "fruitcake/laravel-cors": "^2.0.3",
-        "fzaninotto/faker": "^1.9.1",
-        "guzzlehttp/guzzle": "^7.2.0",
-        "laravel/framework": "^8.14.0",
-        "laravel/tinker": "^2.5.0",
-        "mockery/mockery": "^1.4.2",
-        "nunomaduro/collision": "^5.1.0",
-        "phpunit/phpunit": "^9.4.3"
+        "fakerphp/faker": "^1.14.1",
+        "guzzlehttp/guzzle": "^7.3.0",
+        "laravel/framework": "^8.37.0",
+        "laravel/tinker": "^2.6.1",
+        "mockery/mockery": "^1.4.3",
+        "nunomaduro/collision": "^5.4.0",
+        "phpunit/phpunit": "^9.5.4"
     },
     "autoload": {
         "psr-4": {

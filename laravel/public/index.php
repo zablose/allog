@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @noinspection PhpIncludeInspection
+ */
+
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
@@ -7,11 +11,11 @@ define('LARAVEL_START', microtime(true));
 
 /*
 |--------------------------------------------------------------------------
-| Check If Application Is Under Maintenance
+| Check If The Application Is Under Maintenance
 |--------------------------------------------------------------------------
 |
-| If the application is maintenance / demo mode via the "down" command we
-| will require this file so that any prerendered template can be shown
+| If the application is in maintenance / demo mode via the "down" command
+| we will load this file so that any pre-rendered content can be shown
 | instead of starting the framework, which could cause an exception.
 |
 */
@@ -49,8 +53,10 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 /** @var Kernel $kernel */
 $kernel = $app->make(Kernel::class);
 
-$response = tap($kernel->handle(
-    $request = Request::capture()
-))->send();
+$response = tap(
+    $kernel->handle(
+        $request = Request::capture()
+    )
+)->send();
 
 $kernel->terminate($request, $response);

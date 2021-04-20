@@ -16,6 +16,7 @@ Log all requests to the database, including some data from $_SERVER array, all d
 | ALLOG_DB_DATABASE | allog |  |
 | ALLOG_DB_USERNAME | allog |  |
 | ALLOG_DB_PASSWORD |  |  |
+| ALLOG_DB_CHARSET | utf8mb4 |  |
 | ALLOG_DB_PREFIX |  |  |
 
 ## Client Config

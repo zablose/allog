@@ -1,11 +1,13 @@
-<?php declare(strict_types=1);
+<?php
 
-namespace Tests\Unit;
+declare(strict_types=1);
+
+namespace Tests\Unit\Config;
 
 use PHPUnit\Framework\TestCase;
-use Zablose\Allog\Config;
+use Zablose\Allog\Config\Server as Config;
 
-class ConfigTest extends TestCase
+class ServerTest extends TestCase
 {
     /** @test */
     public function turns_debug_on_or_off()

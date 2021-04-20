@@ -17,13 +17,16 @@ class CreateMessagesTable extends Migration
 
     public function up(): void
     {
-        Schema::create($this->table_name, function (Blueprint $table)
-        {
-            $table->tinyIncrements('id');
-            $table->string('type', 16)->default(Db::MESSAGE_TYPE_INFO);
-            $table->text('message')->collation('utf8mb4_unicode_ci');
-            $table->dateTime('created');
-        });
+        Schema::create(
+            $this->table_name,
+            function (Blueprint $table)
+            {
+                $table->tinyIncrements('id');
+                $table->string('type', 16)->default(Db::MESSAGE_TYPE_INFO);
+                $table->text('message')->collation('utf8mb4_unicode_ci');
+                $table->dateTime('created');
+            }
+        );
     }
 
     public function down(): void

@@ -1,10 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Zablose\Allog\Client;
-use Zablose\Allog\Config;
+use Zablose\Allog\Config\Client as Config;
 
 class ClientTest extends TestCase
 {
@@ -68,25 +70,5 @@ class ClientTest extends TestCase
         $config->server_url = '/curle_url_malformat';
 
         (new Client($config))->send();
-    }
-
-    /** @test */
-    public function close_curl_handle_on_destruct()
-    {
-        $config = new Config();
-        $config->debug = true;
-        $config->client_state = Client::STATE_PRODUCTION;
-        $config->client_name = 'Testing';
-        $config->client_token = 'token';
-
-        $client = (new Client($config))->send();
-
-        $ch = $client->getCurlHandle();
-
-        $this->assertTrue(is_resource($ch));
-
-        unset($client);
-
-        $this->assertNotTrue(is_resource($ch));
     }
 }

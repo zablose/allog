@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Tests\Feature;
 
@@ -6,7 +8,7 @@ use App\Models\Client;
 use App\Models\Message;
 use App\Models\RequestsClientLocal;
 use Tests\TestCase;
-use Zablose\Allog\Config;
+use Zablose\Allog\Config\Server as Config;
 use Zablose\Allog\Db;
 
 class DbTest extends TestCase
@@ -63,7 +65,7 @@ class DbTest extends TestCase
         $this->assertIsArray($requests);
         $this->assertStringContainsString($uuid, $requests[0]->post);
 
-        RequestsClientLocal::where((array) $requests[0])->delete();
+        RequestsClientLocal::where((array)$requests[0])->delete();
     }
 
     /** @test */
@@ -120,12 +122,14 @@ class DbTest extends TestCase
         $type = Db::MESSAGE_TYPE_INFO;
         $message = $this->fake()->sentence;
 
-        Message::create([
-            'id' => 255,
-            'type' => $type,
-            'message' => $message,
-            'created' => $this->fake()->dateTime,
-        ]);
+        Message::create(
+            [
+                'id' => 255,
+                'type' => $type,
+                'message' => $message,
+                'created' => $this->fake()->dateTime,
+            ]
+        );
 
         $this->db()->addInfo($message);
 

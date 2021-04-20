@@ -1,8 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Zablose\Allog;
 
 use Zablose\Allog\Data\Container;
+use Zablose\Allog\Config\Server as Config;
 
 class Server
 {
@@ -13,7 +16,7 @@ class Server
     public function __construct(Config $config)
     {
         $this->config = $config;
-        $this->data = new Container($config);
+        $this->data = new Container();
         $this->db = new Db($config);
     }
 
@@ -37,7 +40,7 @@ class Server
     private function auth(): bool
     {
         if ($this->data->server()->remote_addr === '127.0.0.1') {
-            return (bool) $this->data->post()->getAllogClientName();
+            return (bool)$this->data->post()->getAllogClientName();
         }
 
         if (! $this->data->post()->getAllogClientName() || ! $this->data->post()->getAllogClientToken()) {

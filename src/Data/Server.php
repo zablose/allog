@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Zablose\Allog\Data;
 
@@ -65,7 +67,7 @@ class Server
 
     public function toArray(): array
     {
-        $data = (array) $this;
+        $data = (array)$this;
 
         $data['request_time'] = date(Db::DATE_FORMAT, $this->request_time);
 

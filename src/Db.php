@@ -1,16 +1,19 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Zablose\Allog;
 
 use PDO;
 use Exception;
+use Zablose\Allog\Config\Server as Config;
 
 class Db
 {
-    const DATE_FORMAT = 'Y-m-d H:i:s';
-    const MESSAGE_TYPE_ERROR = 'error';
-    const MESSAGE_TYPE_INFO = 'info';
-    const MESSAGE_TYPE_WARNING = 'warning';
+    public const DATE_FORMAT = 'Y-m-d H:i:s';
+    public const MESSAGE_TYPE_ERROR = 'error';
+    public const MESSAGE_TYPE_INFO = 'info';
+    public const MESSAGE_TYPE_WARNING = 'warning';
 
     private PDO $pdo;
     private Table $table;
@@ -53,7 +56,7 @@ class Db
 
     protected function truncate(string $table): bool
     {
-        return (boolean) $this->pdo->exec("TRUNCATE TABLE `$table`");
+        return (boolean)$this->pdo->exec("TRUNCATE TABLE `$table`");
     }
 
     /**
@@ -74,7 +77,7 @@ class Db
         try {
             $result = $this->insert($table, $fields);
         } catch (Exception $exception) {
-            if ((int) $exception->getCode() === 22003) {
+            if ((int)$exception->getCode() === 22003) {
                 $this->truncate($table);
 
                 $this->addWarning("ID is out of range for the table '$table'. Table was truncated!");
