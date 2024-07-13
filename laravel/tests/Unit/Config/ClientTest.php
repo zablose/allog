@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Config;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Zablose\Allog\Config\Client as Config;
 
 class ClientTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function turns_debug_on_or_off()
     {
         $config = (new Config())->debugOn();
@@ -21,13 +22,14 @@ class ClientTest extends TestCase
         $this->assertFalse($config->debug);
     }
 
-    /** @test */
+    #[Test]
     public function read_config_from_different_files()
     {
         $dir = __DIR__.'/../../files';
         $config = (new Config())->read($dir.'/.env.client')->read($dir.'/.env.protect');
         $this->assertSame(
             [
+                'debug' => false,
                 'client_state' => 'production',
                 'client_name' => 'forum',
                 'client_token' => 'token',
@@ -37,7 +39,6 @@ class ClientTest extends TestCase
                     2 => 'password',
                     3 => 'password_confirmation',
                 ],
-                'debug' => false,
             ],
             get_object_vars($config)
         );

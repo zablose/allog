@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Zablose\Allog\Data\Get;
 use Zablose\Allog\Data\Post;
 
-abstract class TestCase extends BaseTestCase
+abstract class FeatureTestCase extends BaseTestCase
 {
     use CreatesApplication;
 

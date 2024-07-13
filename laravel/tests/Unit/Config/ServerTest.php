@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Config;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Zablose\Allog\Config\Server as Config;
 
 class ServerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function turns_debug_on_or_off()
     {
         $config = (new Config())->debugOn();

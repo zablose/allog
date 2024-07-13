@@ -6,12 +6,13 @@ namespace Tests\Feature;
 
 use App\Models\RequestsClientRemote;
 use App\Models\RequestsServer;
-use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
+use Tests\FeatureTestCase;
 use Zablose\Allog\Data\Post;
 
-class ServerTest extends TestCase
+class ServerTest extends FeatureTestCase
 {
-    /** @test */
+    #[Test]
     public function saves_get_data_without_protection()
     {
         $uuid = $this->fake()->uuid;
@@ -28,7 +29,7 @@ class ServerTest extends TestCase
         $model->delete();
     }
 
-    /** @test */
+    #[Test]
     public function saves_post_data_without_protection()
     {
         $uuid = $this->fake()->uuid;
@@ -50,7 +51,7 @@ class ServerTest extends TestCase
         $model->delete();
     }
 
-    /** @test */
+    #[Test]
     public function saves_post_data_with_auth()
     {
         $uuid = $this->fake()->uuid;
@@ -82,7 +83,7 @@ class ServerTest extends TestCase
         $model->delete();
     }
 
-    /** @test */
+    #[Test]
     public function fails_auth_if_client_name_is_missing()
     {
         $uuid = $this->fake()->uuid;

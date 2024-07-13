@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     backupGlobals="false"
-    backupStaticAttributes="false"
+    backupStaticProperties="false"
     bootstrap="./vendor/autoload.php"
-    verbose="true"
+    cacheDirectory=".phpunit.cache"
     colors="true"
-    convertErrorsToExceptions="true"
-    convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
     processIsolation="false"
     stopOnFailure="true"
-    timeoutForSmallTests="1"
-    timeoutForMediumTests="5"
     timeoutForLargeTests="10"
-    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+    timeoutForMediumTests="5"
+    timeoutForSmallTests="1"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.2/phpunit.xsd"
 >
-    <coverage processUncoveredFiles="true">
+    <source>
         <include>
             <directory suffix=".php">./src</directory>
         </include>
+    </source>
+    <coverage>
         <report>
             <html outputDirectory="./coverage-report/"/>
             <text outputFile="php://stdout" showUncoveredFiles="true"/>
