@@ -13,23 +13,19 @@
         }
     ],
     "require": {
-        "php": "~7.4|^8.0",
+        "php": "^8.3",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-pdo": "*",
-        "zablose/dotenv": "^1.2.1"
+        "zablose/dotenv": "^1.2.3"
     },
     "require-dev": {
-        "facade/ignition": "^2.8.3",
-        "fideloper/proxy": "^4.4.1",
-        "fruitcake/laravel-cors": "^2.0.3",
-        "fakerphp/faker": "^1.14.1",
-        "guzzlehttp/guzzle": "^7.3.0",
-        "laravel/framework": "^8.37.0",
-        "laravel/tinker": "^2.6.1",
-        "mockery/mockery": "^1.4.3",
-        "nunomaduro/collision": "^5.4.0",
-        "phpunit/phpunit": "^9.5.4"
+        "laravel/framework": "^v11.15.0",
+        "laravel/tinker": "^v2.9.0",
+        "fakerphp/faker": "^v1.23.1",
+        "mockery/mockery": "^1.6.12",
+        "nunomaduro/collision": "^v8.1.1",
+        "phpunit/phpunit": "^11.2.7"
     },
     "autoload": {
         "psr-4": {
@@ -39,15 +35,15 @@
     "autoload-dev": {
         "psr-4": {
             "App\\": "laravel/app/",
-            "Tests\\": "laravel/tests/"
-        },
-        "classmap": [
-            "laravel/database/seeders"
-        ]
+            "Tests\\": "laravel/tests/",
+            "Database\\Seeders\\": "laravel/database/seeders/"
+        }
     },
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
         "optimize-autoloader": true
-    }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }
