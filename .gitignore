@@ -1,7 +1,6 @@
 /.idea/
+/.phpunit.cache/
 /coverage-report/
-/laravel/.env
-/sql/allog.sql.sh
 /vendor/
 /.env
 /.phpunit.result.cache
