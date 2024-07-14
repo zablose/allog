@@ -7,11 +7,12 @@ namespace Tests\Feature;
 use App\Models\Client;
 use App\Models\Message;
 use App\Models\RequestsClientLocal;
-use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
+use Tests\FeatureTestCase;
 use Zablose\Allog\Config\Server as Config;
 use Zablose\Allog\Db;
 
-class DbTest extends TestCase
+class DbTest extends FeatureTestCase
 {
     protected ?Db $db = null;
 
@@ -24,7 +25,7 @@ class DbTest extends TestCase
         return $this->db;
     }
 
-    /** @test */
+    #[Test]
     public function adds_client()
     {
         $this->db()->addClient($name = 'testing_client', 'token', '127.0.0.2');
@@ -36,7 +37,7 @@ class DbTest extends TestCase
         $model->delete();
     }
 
-    /** @test */
+    #[Test]
     public function gets_latest_clients()
     {
         $this->db()->addClient($name = 'testing_client', 'token', '127.0.0.2');
@@ -49,7 +50,7 @@ class DbTest extends TestCase
         Client::where(compact('name'))->delete();
     }
 
-    /** @test */
+    #[Test]
     public function gets_latest_requests()
     {
         $uuid = $this->fake()->uuid;
@@ -68,7 +69,7 @@ class DbTest extends TestCase
         RequestsClientLocal::where((array)$requests[0])->delete();
     }
 
-    /** @test */
+    #[Test]
     public function adds_info()
     {
         $type = Db::MESSAGE_TYPE_INFO;
@@ -84,7 +85,7 @@ class DbTest extends TestCase
         $model->delete();
     }
 
-    /** @test */
+    #[Test]
     public function adds_warning()
     {
         $type = Db::MESSAGE_TYPE_WARNING;
@@ -100,7 +101,7 @@ class DbTest extends TestCase
         $model->delete();
     }
 
-    /** @test */
+    #[Test]
     public function adds_error()
     {
         $type = Db::MESSAGE_TYPE_ERROR;
@@ -116,7 +117,7 @@ class DbTest extends TestCase
         $model->delete();
     }
 
-    /** @test */
+    #[Test]
     public function triggers_truncate_table()
     {
         $type = Db::MESSAGE_TYPE_INFO;
@@ -143,7 +144,7 @@ class DbTest extends TestCase
         $model->delete();
     }
 
-    /** @test */
+    #[Test]
     public function rethrows_exception_when_forced_insert_in_use()
     {
         $this->expectExceptionCode('42S02');

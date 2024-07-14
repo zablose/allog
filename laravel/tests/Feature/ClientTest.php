@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Models\RequestsClientLocal;
-use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
+use Tests\FeatureTestCase;
 
-class ClientTest extends TestCase
+class ClientTest extends FeatureTestCase
 {
-    /** @test */
+    #[Test]
     public function sends_get_data_without_protection()
     {
         $uuid = $this->fake()->uuid;
@@ -27,7 +28,7 @@ class ClientTest extends TestCase
         $model->delete();
     }
 
-    /** @test */
+    #[Test]
     public function sends_post_data_with_protection()
     {
         $uri = '/client';
