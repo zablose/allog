@@ -34,7 +34,9 @@ services:
       - allog-php-fpm
       - allog-rsyslog
     networks:
-      - default
+      default:
+        aliases:
+          - www.allog.zdev
 
   allog-php-fpm:
     image: zablose/php-fpm:${ZDI_VERSION_PHP}
