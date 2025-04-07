@@ -1,3 +1,0 @@
-[submodule "docker-damp"]
-	path = docker-damp
-	url = https://github.com/zablose/docker-damp.git
