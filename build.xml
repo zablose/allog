@@ -21,10 +21,12 @@
 
     <target name="prepare" description="Prepare Allog to be released.">
         <delete dir="./laravel" includeemptydirs="true" verbose="true" failonerror="true" />
+        <delete dir="./zdi" includeemptydirs="true" verbose="true" failonerror="true" />
+        <delete file=".gitmodules" />
         <delete>
             <fileset dir="." errorOnMissingDir="true">
                 <include name=".env.example.*" />
-                <include name="composer.lock" />
+                <include name="build.xml" />
                 <include name="docker-compose.*" />
                 <include name="phpunit.xml" />
                 <include name="post-setup.sh" />
