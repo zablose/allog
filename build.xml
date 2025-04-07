@@ -27,7 +27,7 @@
             <fileset dir="." errorOnMissingDir="true">
                 <include name=".env.example.*" />
                 <include name="build.xml" />
-                <include name="docker-compose.*" />
+                <include name="docker-compose.example.*" />
                 <include name="phpunit.xml" />
                 <include name="post-setup.sh" />
             </fileset>
