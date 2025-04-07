@@ -110,7 +110,7 @@ services:
     ports:
       - '${ZDI_HOST_IP}:514:514'
     volumes:
-      - ./storage/logs/:/var/log/
+      - ./laravel/storage/logs/:/var/log/
     networks:
       - default
 
