@@ -9,13 +9,13 @@ namespace Zablose\Allog\Data;
  */
 class Post
 {
-    public const KEY_CLIENT_NAME = 'allog_client_name';
-    public const KEY_CLIENT_TOKEN = 'allog_client_token';
+    public const string KEY_CLIENT_NAME = 'allog_client_name';
+    public const string KEY_CLIENT_TOKEN = 'allog_client_token';
 
     private array $data;
     private array $protected_keys = [];
 
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
         $this->data = $data ?? $_POST;
     }
@@ -77,7 +77,7 @@ class Post
                 $this->data,
                 function (&$value, $key) use ($keys)
                 {
-                    if (array_search($key, $keys) !== false) {
+                    if (in_array($key, $keys)) {
                         $value = '*';
                     }
                 }
