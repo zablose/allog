@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="allog" default="cleanup">
+
+    <target name="cleanup" description="Delete generated folders and files.">
+        <delete dir="./.phpunit.cache" includeemptydirs="true" verbose="true" failonerror="true" />
+        <delete dir="./coverage-report" includeemptydirs="true" verbose="true" failonerror="true" />
+        <delete file=".phpunit.result.cache" />
+        <delete>
+            <fileset dir="./laravel/bootstrap/cache" errorOnMissingDir="true">
+                <include name="*.php" />
+            </fileset>
+            <fileset dir="./laravel/storage/framework/views" errorOnMissingDir="true">
+                <include name="*.php" />
+            </fileset>
+            <fileset dir="./laravel/storage/logs" errorOnMissingDir="true">
+                <include name="*.log" />
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="prepare" description="Prepare Allog to be released.">
+        <delete dir="./laravel" includeemptydirs="true" verbose="true" failonerror="true" />
+        <delete>
+            <fileset dir="." errorOnMissingDir="true">
+                <include name=".env.example.*" />
+                <include name="composer.lock" />
+                <include name="docker-compose.*" />
+                <include name="phpunit.xml" />
+                <include name="post-setup.sh" />
+            </fileset>
+        </delete>
+    </target>
+
+</project>
