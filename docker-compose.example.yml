@@ -6,7 +6,7 @@ services:
       context: ./zdi/
       dockerfile: files/nginx.df
       args:
-        - ARG_DIR_WEB_APP=${ZDI_DIR_WEB}
+        - ARG_DIR_WEB=${ZDI_DIR_WEB}
         - ARG_ENV=${ZDI_ENV}
         - ARG_TIMEZONE=${ZDI_TIMEZONE}
         - ARG_USER_GROUP_ID=${ZDI_USER_GROUP_ID}
@@ -46,7 +46,7 @@ services:
       args:
         - ARG_ADD_COMPOSER=${ZDI_ADD_COMPOSER}
         - ARG_ADD_LARAVEL=${ZDI_ADD_LARAVEL}
-        - ARG_DIR_WEB_APP=${ZDI_DIR_WEB}
+        - ARG_DIR_WEB=${ZDI_DIR_WEB}
         - ARG_ENV=${ZDI_ENV}
         - ARG_TIMEZONE=${ZDI_TIMEZONE}
         - ARG_USER_GROUP_ID=${ZDI_USER_GROUP_ID}
