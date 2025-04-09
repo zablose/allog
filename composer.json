@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "php": "^8.4",
+        "php": "^8.2",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-pdo": "*",
@@ -25,8 +25,8 @@
         "laravel/tinker": "^v2.9.0",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^v8.1.1",
-        "phing/phing": "^3.0",
-        "phpunit/phpunit": "^11.2.7"
+        "phing/phing": "^3.0.1",
+        "phpunit/phpunit": "^11.5.17"
     },
     "autoload": {
         "psr-4": {
