@@ -3,28 +3,27 @@
 <project name="allog" default="cleanup">
 
     <target name="cleanup" description="Delete generated folders and files.">
-        <delete dir="./.phpunit.cache" includeemptydirs="true" verbose="true" failonerror="true" />
-        <delete dir="./coverage-report" includeemptydirs="true" verbose="true" failonerror="true" />
-        <delete file=".phpunit.result.cache" />
+        <delete dir="./.phpunit.cache" includeemptydirs="true" verbose="true" failonerror="false" />
+        <delete dir="./coverage-report" includeemptydirs="true" verbose="true" failonerror="false" />
         <delete>
-            <fileset dir="./laravel/bootstrap/cache" errorOnMissingDir="true">
+            <fileset dir="./laravel/bootstrap/cache" errorOnMissingDir="false">
                 <include name="*.php" />
             </fileset>
-            <fileset dir="./laravel/storage/framework/views" errorOnMissingDir="true">
+            <fileset dir="./laravel/storage/framework/views" errorOnMissingDir="false">
                 <include name="*.php" />
             </fileset>
-            <fileset dir="./laravel/storage/logs" errorOnMissingDir="true">
+            <fileset dir="./laravel/storage/logs" errorOnMissingDir="false">
                 <include name="*.log" />
             </fileset>
         </delete>
     </target>
 
     <target name="prepare" description="Prepare Allog to be released.">
-        <delete dir="./laravel" includeemptydirs="true" verbose="true" failonerror="true" />
-        <delete dir="./zdi" includeemptydirs="true" verbose="true" failonerror="true" />
+        <delete dir="./laravel" includeemptydirs="true" verbose="true" failonerror="false" />
+        <delete dir="./zdi" includeemptydirs="true" verbose="true" failonerror="false" />
         <delete file=".gitmodules" />
         <delete>
-            <fileset dir="." errorOnMissingDir="true">
+            <fileset dir="." errorOnMissingDir="false">
                 <include name=".env.example.*" />
                 <include name="build.xml" />
                 <include name="docker-compose.example.*" />
