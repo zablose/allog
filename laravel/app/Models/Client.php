@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @noinspection PhpMissingFieldTypeInspection
- */
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +13,6 @@ class Client extends Model
     {
         parent::__construct($attributes);
 
-        $this->setTable(env('ALLOG_DB_PREFIX').Table::TABLE_CLIENTS);
+        $this->setTable((new Table(env('ALLOG_DB_PREFIX')))->clients());
     }
 }

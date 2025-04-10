@@ -11,21 +11,21 @@ class AllogController extends Controller
 {
     public function server()
     {
-        (new Server((new ServerConfig())->read(__DIR__.'/../../../../.env')))->run();
+        (new Server((new ServerConfig())->read(dirname(__DIR__, 4) . '/.env')))->run();
 
         return view('server');
     }
 
     public function client()
     {
-        $client = (new Client((new ClientConfig())->read(__DIR__.'/../../../../.env')))->send();
+        $client = (new Client((new ClientConfig())->read(dirname(__DIR__, 4) . '/.env')))->send();
 
         return view('client', compact('client'));
     }
 
     public function server_with_remote_client()
     {
-        (new Server((new ServerConfig())->read(__DIR__.'/../../../../.env')))->run();
+        (new Server((new ServerConfig())->read(dirname(__DIR__, 4) . '/.env')))->run();
 
         return view('server');
     }

@@ -18,6 +18,6 @@ class Message extends Model
     {
         parent::__construct($attributes);
 
-        $this->setTable(env('ALLOG_DB_PREFIX').Table::TABLE_MESSAGES);
+        $this->setTable((new Table(env('ALLOG_DB_PREFIX')))->messages());
     }
 }

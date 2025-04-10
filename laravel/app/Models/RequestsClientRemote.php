@@ -11,6 +11,6 @@ class RequestsClientRemote extends Model
     {
         parent::__construct($attributes);
 
-        $this->setTable(env('ALLOG_DB_PREFIX').Table::TABLE_REQUESTS.env('ALLOG_CLIENT_1_NAME'));
+        $this->setTable((new Table(env('ALLOG_DB_PREFIX')))->requests(env('ALLOG_CLIENT_1_NAME')));
     }
 }
