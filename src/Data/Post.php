@@ -66,11 +66,11 @@ class Post
     /**
      * Protect data in array by replacing values with '*' for selected keys.
      *
-     * @param  array  $keys
+     * @param array $keys
      *
      * @return self
      */
-    private function protect($keys): self
+    private function protect(array $keys): self
     {
         if (count($keys)) {
             array_walk_recursive(

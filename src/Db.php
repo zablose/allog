@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Zablose\Allog;
 
-use PDO;
 use Exception;
+use PDO;
 use Zablose\Allog\Config\Server as Config;
 
 class Db
 {
-    public const DATE_FORMAT = 'Y-m-d H:i:s';
-    public const MESSAGE_TYPE_ERROR = 'error';
-    public const MESSAGE_TYPE_INFO = 'info';
-    public const MESSAGE_TYPE_WARNING = 'warning';
+    public const string DATE_FORMAT = 'Y-m-d H:i:s';
+    public const string MESSAGE_TYPE_ERROR = 'error';
+    public const string MESSAGE_TYPE_INFO = 'info';
+    public const string MESSAGE_TYPE_WARNING = 'warning';
 
     private PDO $pdo;
     private Table $table;
@@ -224,30 +224,31 @@ class Db
         return $pdo_statement->fetchAll();
     }
 
+    /**
+     * @throws Exception
+     */
     public function addRequest(string $client_name, array $fields): bool
     {
         return $this->forcedInsert($this->table->requests($client_name), $fields);
     }
 
-    public function addClient(string $name, string $token, string $ip): bool
+    public function addClient(string $name, string $token): bool
     {
         return $this->insert(
             $this->table->clients(),
             [
                 'name' => $name,
                 'token' => $token,
-                'remote_addr' => $ip,
                 'updated' => true,
             ]
         );
     }
 
-    public function auth(string $client_name, string $token, string $ip): bool
+    public function auth(string $client_name, string $token): bool
     {
         $fields = [
             'name' => $client_name,
             'token' => $token,
-            'remote_addr' => $ip,
             'active' => 1,
         ];
 

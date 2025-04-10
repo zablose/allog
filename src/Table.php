@@ -6,11 +6,11 @@ namespace Zablose\Allog;
 
 class Table
 {
-    public const TABLE_CLIENTS = 'clients';
-    public const TABLE_MESSAGES = 'messages';
+    public const string TABLE_CLIENTS = 'clients';
+    public const string TABLE_MESSAGES = 'messages';
 
     /** Base table name for Allog requests tables. */
-    public const TABLE_REQUESTS = 'requests_';
+    public const string TABLE_REQUESTS = 'requests_';
 
     private string $clients;
     private string $messages;

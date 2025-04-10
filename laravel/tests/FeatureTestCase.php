@@ -12,8 +12,8 @@ abstract class FeatureTestCase extends BaseTestCase
 {
     use CreatesApplication;
 
-    public const HTTP_USER_AGENT = 'Laravel Testing';
-    public const REMOTE_ADDR = '127.0.0.1';
+    public const string HTTP_USER_AGENT = 'Laravel Testing';
+    public const string REMOTE_ADDR = '127.0.0.1';
 
     private static ?FakerGenerator $faker_generator = null;
 

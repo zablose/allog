@@ -25,8 +25,6 @@ class AllogController extends Controller
 
     public function server_with_remote_client()
     {
-        $_SERVER['REMOTE_ADDR'] = env('ALLOG_CLIENT_1_IP');
-
         (new Server((new ServerConfig())->read(__DIR__.'/../../../../.env')))->run();
 
         return view('server');

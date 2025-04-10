@@ -22,7 +22,6 @@ class CreateClientsTable extends Migration
             {
                 $table->string('name', 32)->unique();
                 $table->char('token', 32);
-                $table->char('remote_addr', 15);
                 $table->boolean('active')->default(true);
                 $table->dateTime('updated');
                 $table->dateTime('created');
