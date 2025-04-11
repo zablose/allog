@@ -55,7 +55,7 @@ class ServerTest extends FeatureTestCase
     public function saves_post_data_with_auth()
     {
         $uuid = $this->fake()->uuid;
-        $uri = '/server-with-remote-client';
+        $uri = '/server';
 
         $post = [
             'uuid' => $uuid,
@@ -87,7 +87,7 @@ class ServerTest extends FeatureTestCase
     public function fails_auth_if_client_name_is_missing()
     {
         $uuid = $this->fake()->uuid;
-        $uri = '/server-with-remote-client?uuid='.$uuid;
+        $uri = '/server?uuid='.$uuid;
 
         $request = ['get' => '{"uuid":"'.$uuid.'"}'];
         $auth = [Post::KEY_CLIENT_TOKEN => env('ALLOG_CLIENT_1_TOKEN')];

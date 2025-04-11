@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Allog;
+use Illuminate\Database\Eloquent\Model;
+
 class Message extends Model
 {
     public $timestamps = false;
@@ -13,6 +16,6 @@ class Message extends Model
     {
         parent::__construct($attributes);
 
-        $this->setTable($this->table()->messages());
+        $this->setTable(Allog::table()->messages());
     }
 }
