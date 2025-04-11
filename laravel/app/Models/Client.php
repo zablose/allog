@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Models;
+declare(strict_types=1);
 
-use Illuminate\Database\Eloquent\Model;
-use Zablose\Allog\Table;
+namespace App\Models;
 
 class Client extends Model
 {
@@ -13,6 +12,6 @@ class Client extends Model
     {
         parent::__construct($attributes);
 
-        $this->setTable((new Table(env('ALLOG_DB_PREFIX')))->clients());
+        $this->setTable($this->table()->clients());
     }
 }

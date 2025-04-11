@@ -23,7 +23,7 @@ class Db
     {
         $this->config = $config;
 
-        $this->table = new Table($config->db_prefix);
+        $this->table = new Table($config);
 
         $this->pdo = new PDO(
             $this->formDsnString(),
@@ -215,7 +215,7 @@ class Db
 
     public function getLatestRequests(string $client_name, int $num = 10): array
     {
-        $table = $this->table->requests($client_name);
+        $table = $this->table->requestsClient($client_name);
         $sql = "SELECT * FROM `$table` ORDER BY created DESC LIMIT $num";
         $pdo_statement = $this->pdo->prepare($sql);
 
@@ -229,7 +229,7 @@ class Db
      */
     public function addRequest(string $client_name, array $fields): bool
     {
-        return $this->forcedInsert($this->table->requests($client_name), $fields);
+        return $this->forcedInsert($this->table->requestsClient($client_name), $fields);
     }
 
     public function addClient(string $name, string $token): bool
@@ -322,7 +322,7 @@ class Db
     {
         $this->createClientsTable();
         $this->createMessagesTable();
-        $this->createRequestsTable($this->table->requests($this->config->server_name));
+        $this->createRequestsTable($this->table->requestsServer());
 
         return $this;
     }

@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Models;
+declare(strict_types=1);
 
-use Illuminate\Database\Eloquent\Model;
-use Zablose\Allog\Table;
+namespace App\Models;
 
 class RequestsClientRemote extends Model
 {
@@ -11,6 +10,6 @@ class RequestsClientRemote extends Model
     {
         parent::__construct($attributes);
 
-        $this->setTable((new Table(env('ALLOG_DB_PREFIX')))->requests(env('ALLOG_CLIENT_1_NAME')));
+        $this->setTable($this->table()->requestsClient(env('ALLOG_CLIENT_1_NAME')));
     }
 }
