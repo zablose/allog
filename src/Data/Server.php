@@ -49,11 +49,11 @@ class Server
     /**
      * $_SERVER['REQUEST_TIME']
      *
-     * @var integer
+     * @var int
      */
     public int $request_time = 0;
 
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
         $this->load($data ?? $_SERVER);
     }

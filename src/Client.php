@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Zablose\Allog;
 
+use CurlHandle;
 use Zablose\Allog\Data\Container;
 use Zablose\Allog\Config\Client as Config;
 
 class Client
 {
-    public const STATE_DEVELOPMENT = 'development';
-    public const STATE_DISABLED = 'disabled';
-    public const STATE_LOCAL = 'local';
-    public const STATE_PRODUCTION = 'production';
+    public const string STATE_DEVELOPMENT = 'development';
+    public const string STATE_DISABLED = 'disabled';
+    public const string STATE_LOCAL = 'local';
+    public const string STATE_PRODUCTION = 'production';
 
-    public const MSG_IS_DISABLED_OR_NOT_CONFIGURED = 'Allog Client: Is disabled or not configured.';
+    public const string MSG_IS_DISABLED_OR_NOT_CONFIGURED = 'Allog Client: Is disabled or not configured.';
 
-    /** @var resource */
-    private $ch;
+    private ?CurlHandle $ch = null;
     private Container $data;
     private string $response = '';
     private Config $config;
@@ -33,7 +33,7 @@ class Client
     {
         return $this->config->client_state === self::STATE_DISABLED
             || empty($this->config->client_name)
-            || empty($this->config->client_token) && $this->config->client_state !== self::STATE_LOCAL
+            || empty($this->config->client_token)
             || empty($this->config->server_url);
     }
 
@@ -41,7 +41,7 @@ class Client
     {
         if ($this->isDisabledOrNotConfigured()) {
             if ($this->config->debug) {
-                trigger_error(self::MSG_IS_DISABLED_OR_NOT_CONFIGURED, E_USER_NOTICE);
+                trigger_error(self::MSG_IS_DISABLED_OR_NOT_CONFIGURED);
             }
 
             return $this;

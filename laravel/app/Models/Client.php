@@ -1,13 +1,11 @@
 <?php
 
-/**
- * @noinspection PhpMissingFieldTypeInspection
- */
+declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Allog;
 use Illuminate\Database\Eloquent\Model;
-use Zablose\Allog\Table;
 
 class Client extends Model
 {
@@ -17,6 +15,6 @@ class Client extends Model
     {
         parent::__construct($attributes);
 
-        $this->setTable(env('ALLOG_DB_PREFIX').Table::TABLE_CLIENTS);
+        $this->setTable(Allog::table()->clients());
     }
 }

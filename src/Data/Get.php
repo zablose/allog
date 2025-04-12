@@ -11,7 +11,7 @@ class Get
 {
     private array $data;
 
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
         $this->data = $data ?? $_GET;
     }

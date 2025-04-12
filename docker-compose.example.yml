@@ -1,46 +1,123 @@
-version: '3'
 services:
 
-  allog-rsyslog:
+  allog-nginx:
+    image: zablose/nginx:1.27
     build:
-      context: ./docker-damp/
-      dockerfile: ./docker/files/rsyslog.df
-    image: zablose-rsyslog:3.11
-    container_name: allog-rsyslog
-    ports:
-      - '${DAMP_PORT_SYSLOG}:514'
-    volumes:
-      - ./docker-damp/logs/:/var/log/
-
-  allog-damp:
-    build:
-      context: ./docker-damp/
-      dockerfile: ./docker/files/damp.df
+      context: ./zdi/
+      dockerfile: files/nginx.df
       args:
-        - ARG_DAMP_LOG=${DAMP_LOG}
-        - ARG_USER_GROUP_ID=${DAMP_USER_GROUP_ID}
-        - ARG_USER_GROUP_NAME=${DAMP_USER_GROUP_NAME}
-        - ARG_USER_ID=${DAMP_USER_ID}
-        - ARG_USER_NAME=${DAMP_USER_NAME}
-        - ARG_WEB_DIR=${DAMP_WEB_DIR}
-    image: zablose-damp:10.8-php8.0
-    container_name: allog-damp
+        - ARG_DIR_WEB=${ZDI_DIR_WEB}
+        - ARG_ENV=${ZDI_ENV}
+        - ARG_TIMEZONE=${ZDI_TIMEZONE}
+        - ARG_USER_GROUP_ID=${ZDI_USER_GROUP_ID}
+        - ARG_USER_GROUP_NAME=${ZDI_USER_GROUP_NAME}
+        - ARG_USER_ID=${ZDI_USER_ID}
+        - ARG_USER_NAME=${ZDI_USER_NAME}
+        - ARG_WEB_DOMAIN=${ZDI_WEB_DOMAIN}
+    container_name: allog-nginx
+    environment:
+      ZDI_CONTAINER_NAME: allog-nginx
+      ZDI_PHP_FPM_HOST: allog-php-fpm
     ports:
-      - '${DAMP_PORT_HTTP}:80'
-      - '${DAMP_PORT_HTTPS}:443'
-      - '${DAMP_PORT_DB}:3306'
-    extra_hosts:
-      - '${DAMP_WEB_DOMAIN}:127.0.0.1'
-      - 'www.${DAMP_WEB_DOMAIN}:127.0.0.1'
+      - '${ZDI_HOST_IP}:80:80'
+      - '${ZDI_HOST_IP}:443:443'
     volumes:
-      - ./.env:/home/${DAMP_USER_NAME}/.env
-      - $HOME/.composer/cache/:/home/${DAMP_USER_NAME}/.composer/cache/
-      - ./:${DAMP_WEB_DIR}/
-      - ./post-setup.sh:/home/${DAMP_USER_NAME}/post-setup.sh
+      - ./.env:/home/${ZDI_USER_NAME}/.env
+      - ./:${ZDI_DIR_WEB}/
+      - ./zdi/examples/kanboard/setup/nginx.sh:/home/${ZDI_USER_NAME}/post-setup.sh
     logging:
       driver: syslog
       options:
-        syslog-address: 'tcp://127.0.0.1:${DAMP_PORT_SYSLOG}'
-        tag: 'docker/zablose-damp'
+        syslog-address: 'tcp://${ZDI_HOST_IP}:514'
+        tag: 'docker/allog-nginx'
+    depends_on:
+      - allog-php-fpm
+      - allog-rsyslog
+    networks:
+      default:
+        aliases:
+          - www.allog.zdev
+
+  allog-php-fpm:
+    image: zablose/php-fpm:${ZDI_VERSION_PHP}
+    build:
+      context: ./zdi/
+      dockerfile: files/php-fpm.df
+      args:
+        - ARG_ADD_COMPOSER=${ZDI_ADD_COMPOSER}
+        - ARG_ADD_LARAVEL=${ZDI_ADD_LARAVEL}
+        - ARG_DIR_WEB=${ZDI_DIR_WEB}
+        - ARG_ENV=${ZDI_ENV}
+        - ARG_TIMEZONE=${ZDI_TIMEZONE}
+        - ARG_USER_GROUP_ID=${ZDI_USER_GROUP_ID}
+        - ARG_USER_GROUP_NAME=${ZDI_USER_GROUP_NAME}
+        - ARG_USER_ID=${ZDI_USER_ID}
+        - ARG_USER_NAME=${ZDI_USER_NAME}
+        - ARG_VERSION_COMPOSER=${ZDI_VERSION_COMPOSER}
+        - ARG_VERSION_PHP=${ZDI_VERSION_PHP}
+    container_name: allog-php-fpm
+    environment:
+      ZDI_CONTAINER_NAME: allog-php-fpm
+      ZDI_DB_HOSTNAME: allog-mariadb
+    volumes:
+      - ./.env:/home/${ZDI_USER_NAME}/.env
+      - $HOME/.composer/cache/:/home/${ZDI_USER_NAME}/.composer/cache/
+      - ./:${ZDI_DIR_WEB}/
+      - ./post-setup.sh:/home/${ZDI_USER_NAME}/post-setup.sh
+    logging:
+      driver: syslog
+      options:
+        syslog-address: 'tcp://${ZDI_HOST_IP}:514'
+        tag: 'docker/allog-php-fpm'
+    depends_on:
+      - allog-mariadb
+      - allog-rsyslog
+    networks:
+      - default
+
+  allog-mariadb:
+    image: zablose/mariadb:10.11.6
+    build:
+      context: ./zdi/
+      dockerfile: files/mariadb.df
+      args:
+        - ARG_ENV=${ZDI_ENV}
+        - ARG_TIMEZONE=${ZDI_TIMEZONE}
+        - ARG_USER_GROUP_ID=${ZDI_USER_GROUP_ID}
+        - ARG_USER_GROUP_NAME=${ZDI_USER_GROUP_NAME}
+        - ARG_USER_ID=${ZDI_USER_ID}
+        - ARG_USER_NAME=${ZDI_USER_NAME}
+    container_name: allog-mariadb
+    environment:
+      ZDI_CONTAINER_NAME: allog-mariadb
+    logging:
+      driver: syslog
+      options:
+        syslog-address: 'tcp://${ZDI_HOST_IP}:514'
+        tag: 'docker/allog-mariadb'
+    volumes:
+      - ./.env:/home/${ZDI_USER_NAME}/.env
+      - ./zdi/examples/kanboard/setup/mariadb.sh:/home/${ZDI_USER_NAME}/post-setup.sh
     depends_on:
       - allog-rsyslog
+    networks:
+      - default
+
+  allog-rsyslog:
+    image: zablose/rsyslog:3.19.1
+    build:
+      context: ./zdi/
+      dockerfile: files/rsyslog.df
+    container_name: allog-rsyslog
+    ports:
+      - '${ZDI_HOST_IP}:514:514'
+    volumes:
+      - ./laravel/storage/logs/:/var/log/
+    networks:
+      - default
+
+networks:
+  default:
+    name: zdev_default
+    driver: bridge
+    external: true

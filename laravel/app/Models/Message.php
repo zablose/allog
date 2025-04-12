@@ -1,13 +1,11 @@
 <?php
 
-/**
- * @noinspection PhpMissingFieldTypeInspection
- */
+declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Allog;
 use Illuminate\Database\Eloquent\Model;
-use Zablose\Allog\Table;
 
 class Message extends Model
 {
@@ -18,6 +16,6 @@ class Message extends Model
     {
         parent::__construct($attributes);
 
-        $this->setTable(env('ALLOG_DB_PREFIX').Table::TABLE_MESSAGES);
+        $this->setTable(Allog::table()->messages());
     }
 }

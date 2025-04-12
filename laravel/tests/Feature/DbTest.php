@@ -28,7 +28,7 @@ class DbTest extends FeatureTestCase
     #[Test]
     public function adds_client()
     {
-        $this->db()->addClient($name = 'testing_client', 'token', '127.0.0.2');
+        $this->db()->addClient($name = 'testing_client', 'token');
 
         $model = Client::where(compact('name'))->first();
 
@@ -40,7 +40,7 @@ class DbTest extends FeatureTestCase
     #[Test]
     public function gets_latest_clients()
     {
-        $this->db()->addClient($name = 'testing_client', 'token', '127.0.0.2');
+        $this->db()->addClient($name = 'testing_client', 'token');
 
         $clients = $this->db()->getLatestClients(1);
 

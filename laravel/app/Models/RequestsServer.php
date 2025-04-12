@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
+use App\Allog;
 use Illuminate\Database\Eloquent\Model;
-use Zablose\Allog\Table;
 
 class RequestsServer extends Model
 {
@@ -11,6 +13,6 @@ class RequestsServer extends Model
     {
         parent::__construct($attributes);
 
-        $this->setTable(env('ALLOG_DB_PREFIX').Table::TABLE_REQUESTS.env('ALLOG_SERVER_NAME'));
+        $this->setTable(Allog::table()->requestsClient(env('ALLOG_SERVER_NAME')));
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zablose\Allog;
 
+use Exception;
 use Zablose\Allog\Data\Container;
 use Zablose\Allog\Config\Server as Config;
 
@@ -20,6 +21,9 @@ class Server
         $this->db = new Db($config);
     }
 
+    /**
+     * @throws Exception
+     */
     public function run(): self
     {
         if ($this->auth()) {
@@ -39,10 +43,6 @@ class Server
 
     private function auth(): bool
     {
-        if ($this->data->server()->remote_addr === '127.0.0.1') {
-            return (bool)$this->data->post()->getAllogClientName();
-        }
-
         if (! $this->data->post()->getAllogClientName() || ! $this->data->post()->getAllogClientToken()) {
             return false;
         }
@@ -50,7 +50,6 @@ class Server
         return $this->db->auth(
             $this->data->post()->getAllogClientName(),
             $this->data->post()->getAllogClientToken(),
-            $this->data->server()->remote_addr
         );
     }
 }
